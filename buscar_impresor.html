@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Plantiflex</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  </head>
+    <body >
+      <div id="carga-modal-general" data-type="reporte_impresor"></div>
+    
+      <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+          <div class="row w-100">
+            <div class="col-2">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> Menu
+              </button>
+            </div>
+            <div class="col-8">
+              <h5 class="text-center text-light mt-1">Buscador de solicitudes</h5>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </nav>
+      <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Plantiflex menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral">
+
+          </ul>
+        </div>
+      </div>
+      <div class="container-fluid mt-5 pt-3">
+        <div class="row">
+            <div class="col-sm-6">
+              <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="text-center">Solicitudes pendientes de pago</h5>
+                    
+                    <div class="row mt-2">
+
+                        
+                        <div class="col-sm-12" id="todo_pend">
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
+            
+            <div class="col-sm-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="text-center">Busqueda entre fechas</h5>
+                        
+                        <div class="row mt-2">
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">
+                              <input type="number" class="form-control w-100" id="anio">
+                            </div>
+                            <div class="col-sm-3">
+                              <select class="form-control w-100" id="mes">
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                              </select>
+                            </div>        
+                            
+                            <div class="col-sm-5">
+                                <button class="btn btn-primary w-100" onclick="buscar_fecha()">Buscar</button>
+                            </div>
+                            <div class="col-sm-1"></div>
+                        </div>
+                        <div class="row mt-2" >
+                          <div class="" id="resultado"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+          </div>
+          
+          
+        </div>
+      </div>
+      
+      
+
+      
+      
+
+
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+        <script>
+            $( document ).ready(function() {
+                pendientes();
+                // Obtener la fecha actual
+                var mesActual = new Date().getMonth() + 1; 
+                $('#mes').val(mesActual); 
+
+                var anioActual = new Date().getFullYear();
+                $('#anio').val(anioActual); 
+            });
+            function buscar_fecha() {
+              var parametros = {
+                "accion"   : "1",
+                "mes": $("#mes").val(),
+                "anio": $("#anio").val()
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/buscar_impresor.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#resultado").html(response);
+                    }
+                });
+
+              }
+              function pendientes() {
+              var parametros = {
+                "accion"   : "2"
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/buscar_impresor.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#todo_pend").html(response);
+                    }
+                });
+
+              }
+
+            
+        </script>
+
+    </body>
+</html>

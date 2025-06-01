@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Plantiflex</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  </head>
+    <body class="align-items-center bg-body-tertiary">
+      <div id="carga-modal-general" data-type="impresion" ></div>
+
+      <nav class="navbar navbar-dark bg-dark ">
+        <div class="container-fluid">
+          <div class="row w-100">
+            <div class="col-2">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> Menu
+              </button>
+            </div>
+            <div class="col-8">
+              <h5 class="text-center text-light mt-1">Solicitudes pendientes de impresión</h5>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </nav>
+
+
+      
+      <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Plantiflex menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral">
+
+          </ul>
+        </div>
+      </div>
+      <div class="container-fluid mt-4">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <h5 class="text-center">Estado de solicitudes</h5>
+                <div class="list-group" id="list-tab" role="tablist">
+                  <a class="list-group-item d-flex justify-content-between align-items-center" id="list-garantia-list" data-bs-toggle="list" href="#list-garantia" role="tab" aria-controls="list-garantia" onclick="muestra_datos('Garantia')">Garantía <span id="num-garantia" class="badge bg-danger rounded-pill"></span></a>
+                  <a class="list-group-item d-flex justify-content-between align-items-center" id="list-reparacion-list" data-bs-toggle="list" href="#list-reparacion" role="tab" aria-controls="list-reparacion" onclick="muestra_datos('Reparacion')">Reparación <span id="num-reparacion" class="badge bg-danger rounded-pill"></span></a>
+                  <a class="list-group-item d-flex justify-content-between align-items-center" id="list-reimp-list" data-bs-toggle="list" href="#list-reimp" role="tab" aria-controls="list-reimp" onclick="muestra_datos('Reimpresion')">Re impresión <span id="num-reimp" class="badge bg-danger rounded-pill"></span></a>
+                  <a class="list-group-item d-flex justify-content-between align-items-center active" id="list-pendiente-list" data-bs-toggle="list" href="#list-pendiente" role="tab" aria-controls="list-pendiente" onclick="muestra_datos('Pendiente')">Pendientes <span id="num-pendiente" class="badge bg-warning rounded-pill text-dark"></span></a>
+                  <a class="list-group-item d-flex justify-content-between align-items-center" id="list-enproceso-list" data-bs-toggle="list" href="#list-enproceso" role="tab" aria-controls="list-enproceso" onclick="muestra_datos('En proceso')">En proceso de impresón <span id="num-enproceso" class="badge bg-info rounded-pill text-dark"></span></a>
+                  <a class="list-group-item d-flex justify-content-between align-items-center" id="list-enprensa-list" data-bs-toggle="list" href="#list-enprensa" role="tab" aria-controls="list-enprensa" onclick="muestra_datos('En prensa')">En prensa <span id="num-enprensa" class="badge bg-secondary rounded-pill"></span></a>
+                  <a class="list-group-item d-flex justify-content-between align-items-center" id="list-impresos-list" data-bs-toggle="list" href="#list-impresos" role="tab" aria-controls="list-impresos" onclick="muestra_datos('Producto impreso')">Productos impresos (listos para enviar)<span id="num-impreso" class="badge bg-success rounded-pill"></span></a>
+                </div>
+                
+                
+              </div>
+            </div>
+            
+          </div>
+          <div class="col-sm-9">
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade" id="list-garantia" role="tabpanel" aria-labelledby="list-garantia-list">...</div>
+              <div class="tab-pane fade" id="list-reparacion" role="tabpanel" aria-labelledby="list-reparacion-list">...</div>
+              <div class="tab-pane fade" id="list-reimp" role="tabpanel" aria-labelledby="list-reimp-list">...</div>
+              <div class="tab-pane fade show active" id="list-pendiente" role="tabpanel" aria-labelledby="list-pendiente-list"></div>
+              <div class="tab-pane fade" id="list-enproceso" role="tabpanel" aria-labelledby="list-enproceso-list">...</div>
+              <div class="tab-pane fade" id="list-enprensa" role="tabpanel" aria-labelledby="list-enprensa-list">...</div>
+              <div class="tab-pane fade" id="list-impresos" role="tabpanel" aria-labelledby="list-impresos-list">...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="container-fluid mt-5">
+        <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-8" id="resultado"></div>
+          <div class="col-sm-2" id="contador"></div>
+        </div>
+      </div>
+
+
+
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script>
+            $( document ).ready(function() {
+              muestra_datos('Pendiente');
+              carga_numeros();
+
+            
+
+            
+              
+                /*
+                var parametros = {
+                "accion"   : "2"
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/impresion.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#ciudad").html(response);
+                    }
+                })
+                */
+            });
+
+            
+
+            function muestra_datos(data) {
+              var parametros = {
+                "data"   : data,
+                "accion"   : "1"
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/impresion.php',
+                    type: 'post',  
+                    success: function (response) {
+                      //console.log(response);
+                      if (data === 'Pendiente') {
+                        $("#list-pendiente").html(response);
+                      }
+                      if (data === 'En proceso') {
+                        $("#list-enproceso").html(response);
+                      }
+                      if (data === 'Producto impreso') {
+                        $("#list-impresos").html(response);
+                      }
+                      if (data === 'En prensa') {
+                        $("#list-enprensa").html(response);
+                      }
+                      if (data === 'Reparacion') {
+                        $("#list-reparacion").html(response);
+                      }
+                      if (data === 'Reimpresion') {
+                        $("#list-reimp").html(response);
+                      }
+                      if (data === 'Garantia') {
+                        $("#list-garantia").html(response);
+                      }
+                      
+                      
+
+                      $('[id^="td_tiempo_"]').each(function(index) {
+                          
+                        var currentId = $(this).attr('id');
+                        var numero = currentId.match(/\d+/)[0];
+                        //console.log('Elemento:', currentId);
+
+                        calcula_fecha($("#input_time_"+numero).val(), currentId, $("#tiempo_calculo").val());
+                          
+                      });
+                    }
+                });
+            }
+
+            function calcula_fecha(data_time, div, t_c) {
+              var intervalo = setInterval(function() {
+                  actualizarContador(data_time, div, t_c);
+              }, 1000);
+            }
+            //***************************************************************************
+            function actualizarContador(fechaInicioStr, div, diasHabilesSumar) {
+    let fecha = new Date(fechaInicioStr);
+    let sumados = 0;
+
+    // Sumar días hábiles
+    while (sumados < diasHabilesSumar) {
+        fecha.setDate(fecha.getDate() + 1);
+        let dia = fecha.getDay();
+        if (dia >= 1 && dia <= 5) {
+            sumados++;
+        }
+    }
+
+    // Traducir días de la semana y meses al español
+    const diasSemana = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+    const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+    let diaSemana = diasSemana[fecha.getDay()];
+    let dia = fecha.getDate();
+    let mes = meses[fecha.getMonth()];
+    let anio = fecha.getFullYear();
+
+    let fechaTexto = `${diaSemana} ${dia} de ${mes} del ${anio}`;
+
+    $('#' + div).text("" + fechaTexto);
+
+
+            //*****************************************************************************
+            }
+            
+            function carga_numeros() {
+              var parametros = {
+                "accion"   : "2"
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/impresion.php',
+                    type: 'post',  
+                    dataType: 'json',
+                    success: function (response) {
+                      //console.log(response);
+                      $("#num-pendiente").html(response['pendiente']);
+                      $("#num-enproceso").html(response['en proceso']);
+                      $("#num-enprensa").html(response['en prensa']);
+                      $("#num-impreso").html(response['producto impreso']);
+                      $("#num-reparacion").html(response['reparacion']);
+                      $("#num-reimp").html(response['reimpresion']);
+                      $("#num-garantia").html(response['garantia']);
+                    }
+                });
+            }
+            function ver_detalles(id) {
+              var parametros = {
+                "accion"   : "2",
+                "id" : id
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/impresion.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#cuerpo-modal").html(response);
+                      const myModalAlternative = new bootstrap.Modal('#myModal');
+                      myModalAlternative.show();
+                    }
+                });
+              
+            }
+            
+            
+        </script>
+
+    </body>
+</html>

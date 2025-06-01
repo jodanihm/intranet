@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administración de Usuarios</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+
+<!-- Menú lateral -->
+<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Plantiflex menu</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral"></ul>
+  </div>
+</div>
+
+<!-- Navbar superior -->
+<nav class="navbar navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <div class="row w-100">
+      <div class="col-2">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar">
+          <span class="navbar-toggler-icon"></span> Menu
+        </button>
+      </div>
+      <div class="col-8">
+        <h5 class="text-center text-light mt-1">Panel administración usuarios</h5>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Contenido -->
+<div class="container-fluid mt-5 pt-4">
+  <div class="row">
+    <div class="col-sm-12 d-flex justify-content-end mb-3">
+      <button class="btn btn-success" onclick="abrirModalAgregar()">
+        <i class="bi bi-plus-circle"></i> Agregar Usuario
+      </button>
+    </div>
+    <div class="col-sm-12" id="resultado"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalUsuario" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitulo">Editar Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-2" id="grupoRUT">
+          <label class="form-label">RUT</label>
+          <input type="text" class="form-control" id="editRut">
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="editNombre">
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Usuario</label>
+          <input type="text" class="form-control" id="editUsuario">
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Correo</label>
+          <input type="email" class="form-control" id="editMail">
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Tipo</label>
+          <select id="editTipo" class="form-select">
+            <option value="0">Administrador</option>
+            <option value="1">Kinesiólogo</option>
+            <option value="2">Impresor</option>
+            <option value="3">Kinesiólogo Jefe</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Ciudad</label>
+          <select id="editCiudad" class="form-select"></select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" id="btnGuardar" onclick="guardarCambios()">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+      <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+   
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let modoAgregar = false;
+
+function tipoTexto(tipo) {
+  return ['Administrador', 'Kinesiólogo', 'Impresor', 'Kinesiólogo Jefe'][tipo] || 'Desconocido';
+}
+
+function cargarUsuarios() {
+  fetch('php/listar_usuarios.php')
+    .then(r => r.json())
+    .then(data => {
+      let html = `<table class='table table-striped'><thead><tr><th>RUT</th><th>Nombre</th><th>Usuario</th><th>Correo</th><th>Tipo</th><th>Ciudad</th><th>Acciones</th></tr></thead><tbody>`;
+      data.forEach(u => {
+        html += `<tr>
+          <td>${u.rut}</td>
+          <td>${u.name}</td>
+          <td>${u.user_name}</td>
+          <td>${u.mail}</td>
+          <td>${tipoTexto(u.type)}</td>
+          <td>${u.ciudad_nombre || 'Sin asignar'}</td>
+          <td>
+            <button class='btn btn-warning btn-sm' onclick='editarUsuario(${JSON.stringify(u)})'><i class='bi bi-pencil'></i></button>
+            <button class='btn btn-danger btn-sm' onclick='eliminarUsuario("${u.rut}")'><i class='bi bi-trash'></i></button>
+          </td>
+        </tr>`;
+      });
+      html += '</tbody></table>';
+      document.getElementById('resultado').innerHTML = html;
+    });
+}
+
+async function cargarCiudades(seleccionada = null) {
+  const res = await fetch('php/listar_ciudades.php');
+  const data = await res.json();
+  const select = document.getElementById('editCiudad');
+  select.innerHTML = '';
+  data.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.nombre;
+    if (c.id == seleccionada) opt.selected = true;
+    select.appendChild(opt);
+  });
+}
+
+function editarUsuario(u) {
+  modoAgregar = false;
+  document.getElementById('modalTitulo').innerText = 'Editar Usuario';
+  document.getElementById('grupoRUT').style.display = 'none';
+  document.getElementById('editRut').value = u.rut;
+  document.getElementById('editNombre').value = u.name;
+  document.getElementById('editUsuario').value = u.user_name;
+  document.getElementById('editMail').value = u.mail;
+  document.getElementById('editTipo').value = u.type;
+  cargarCiudades(u.ciudad);
+  new bootstrap.Modal(document.getElementById('modalUsuario')).show();
+}
+
+async function abrirModalAgregar() {
+  modoAgregar = true;
+  document.getElementById('modalTitulo').innerText = 'Agregar Usuario';
+  document.getElementById('grupoRUT').style.display = 'block';
+  document.getElementById('editRut').value = '';
+  document.getElementById('editNombre').value = '';
+  document.getElementById('editUsuario').value = '';
+  document.getElementById('editMail').value = '';
+  document.getElementById('editTipo').value = '0';
+  await cargarCiudades();
+  new bootstrap.Modal(document.getElementById('modalUsuario')).show();
+}
+
+function guardarCambios() {
+  const datos = {
+    rut: document.getElementById('editRut').value,
+    nombre: document.getElementById('editNombre').value,
+    usuario: document.getElementById('editUsuario').value,
+    mail: document.getElementById('editMail').value,
+    tipo: parseInt(document.getElementById('editTipo').value),
+    ciudad: parseInt(document.getElementById('editCiudad').value)
+  };
+
+  const url = modoAgregar ? 'php/agregar_usuario.php' : 'php/editar_usuario.php';
+
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(datos)
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      alertToast('success',modoAgregar ? 'Usuario agregado' : 'Usuario actualizado');
+      bootstrap.Modal.getInstance(document.getElementById('modalUsuario')).hide();
+      cargarUsuarios();
+    } else {
+      alert('Error: ' + data.message);
+    }
+  });
+}
+
+function eliminarUsuario(rut) {
+  if (!confirm('¿Eliminar este usuario?')) return;
+
+  fetch('php/eliminar_usuario.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rut })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      alert('Usuario eliminado');
+      cargarUsuarios();
+    } else {
+      alert('Error: ' + data.message);
+    }
+  });
+}
+
+window.onload = cargarUsuarios;
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Plantiflex</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  </head>
+    <body >
+
+
+      <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+          <div class="row w-100">
+            <div class="col-2">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> Menu
+              </button>
+            </div>
+            <div class="col-8">
+              <h5 class="text-center text-light mt-1">Solicitudes pendientes de pago</h5>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </nav>
+
+
+      
+      <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Plantiflex menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral">
+
+          </ul>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="container-fluid mt-5">
+        <div class="row">
+
+          <div class="col-sm-12" id="resultado"></div>
+
+        </div>
+      </div>
+
+      <div class="modal fade" id="myModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Detalles de la solicitud</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="cuerpo-modal">
+              Hide this modal and show the first with the button below.
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-dismiss="modal" id="btn-cerrar-modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script>
+            $( document ).ready(function() {
+                muestra_datos();
+            });
+            function muestra_datos() {
+              var parametros = {
+                "accion"   : "1",
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/finalizar.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#resultado").html(response);
+                    }
+                });
+            }
+            function ver_detalles(id) {
+              var parametros = {
+                "accion"   : "2",
+                "id" : id
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/finalizar.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#cuerpo-modal").html(response);
+                      const myModalAlternative = new bootstrap.Modal('#myModal');
+                      myModalAlternative.show();
+                    }
+                });
+              
+            }
+
+
+            function pago_per(id) {
+
+                  var parametros = {
+                    "accion"   : "6",
+                    "id" : id
+                    };
+                    $.ajax({            
+                        data:  parametros,
+                        url: 'php/finalizar.php',
+                        type: 'post',  
+                        success: function (response) {
+                          $('#btn-cerrar-modal').trigger('click');
+                          muestra_datos()
+                        }
+                    });
+              
+            }
+
+            function pagar() {
+              
+                    var checkboxes = document.getElementsByName('s_pago');
+                    var valoresSeleccionados = [];
+                    var total = 0;
+                    checkboxes.forEach(function(checkbox) {
+                        if (checkbox.checked) {
+                            var primerValor = checkbox.value;
+                            var segundoValor = checkbox.dataset.segundoValor;
+                            valoresSeleccionados.push({ primerValor, segundoValor });
+                            total = segundoValor + total;
+                            //console.log(total);
+                            //$("#total-pagar").html(total);
+                        }
+                    });
+                    //console.log(valoresSeleccionados);
+                    var parametros = {
+                      "accion"   : "5",
+                      "array_datos" : valoresSeleccionados
+                      };
+                      $.ajax({            
+                          data:  parametros,
+                          url: 'php/finalizar.php',
+                          type: 'post',  
+                          success: function (response) {
+                            muestra_datos();
+                            //console.log(response);
+                            //$('#btn-cerrar-modal').trigger('click');
+                            //$("#cuerpo-modal").html(response);
+                          }
+                      });
+              
+            }
+
+            function modal_pagar() {
+                var parametros = {
+                "accion"   : "7",
+                "monto" : $('#input-pre-pago').val()
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/finalizar.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#cuerpo-modal").html(response);
+                      const myModalAlternative = new bootstrap.Modal('#myModal');
+                      myModalAlternative.show();
+                    }
+                });
+            }
+
+            
+
+              // Funci贸n para seleccionar/deseleccionar todos
+              function s_todo() {
+                $('[name="s_pago"]').each(function() {
+                    $(this).prop('checked', !$(this).prop('checked'));
+                });
+                
+              }
+
+
+              function actualizarBoton() {
+                const algunCheckboxSeleccionado = $('[name="s_pago"]:checked').length > 0;
+                $('#calcular').prop('disabled', !algunCheckboxSeleccionado);
+              }
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+
+    <title>Plantiflex</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
+
+    <style>
+
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <!-- <link href="sign-in.css" rel="stylesheet"> -->
+  </head>
+  <body class="d-flex align-items-center py-4 bg-body-tertiary">
+
+
+
+
+    
+<main class="form-signin w-100 m-auto">
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4"><img class="mb-4" src="img/logo.png" style="width:100%"></div>
+        <div class="col-sm-4"></div>
+      </div>
+      <div class="row ">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-2">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="user_id">
+            <label for="floatingInput">Usuario</label>
+          </div>
+        </div>
+        <div class="col-sm-5"></div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-2">
+          <div class="form-floating">
+            <input type="password" class="form-control" id="pass">
+            <label for="floatingPassword">Clave</label>  
+          </div>
+        </div>
+        <div class="col-sm-5"></div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-2">
+          <div class="form-floating">
+            <button class="btn btn-primary w-100 py-2" type="button" id="btnEntrar">Entrar</button>
+            <div class="mt-4" id="resp"></div>
+
+          </div>
+        </div>
+        <div class="col-sm-5"></div>
+      </div>
+    </div>
+    
+
+
+    
+
+</main>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+
+        // Manejar el clic en el botón
+        $('#btnEntrar').click(function() {
+          validar_credenciales();
+        });
+
+
+          function validar_credenciales(){
+                
+            var parametros = {
+                "accion"   : "validar_credenciales",
+                "user"   : $("#user_id").val(),
+                "pass"    : $("#pass").val()
+            };
+            //console.log(parametros);
+                $.ajax({              
+                    data:  parametros,
+                    url:   'php/login.php',
+                    type:  'post',
+                    dataType: 'json',
+                    success:  function (response) {
+                    //console.log(response);
+                    
+                    if (response['status'] == "error") {
+                        $("#resp").html("<div class='alert alert-danger alert-dismissible fade show' role='alert'><strong>"+response['message']+"</strong></div>");
+                        //desaparecer();
+                    };
+                    if (response['status'] == "success") {
+                        //$("#resp").html(response);
+                        location.assign(response['init']);
+                    };
+                    
+                    
+                    }
+                })
+          }; 
+    </script>
+
+    </body>
+</html>

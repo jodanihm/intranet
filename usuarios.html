@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Plantiflex</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  </head>
+    <body >
+
+
+      <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+          <div class="row w-100">
+            <div class="col-2">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> Menu
+              </button>
+            </div>
+            <div class="col-8">
+              <h5 class="text-center text-light mt-1">Menu administrador de precios</h5>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </nav>
+
+
+      
+      <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Plantiflex menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral">
+
+          </ul>
+        </div>
+      </div>
+
+      
+      <br>
+      <br>
+      <br>
+
+      <div class="container-fluid mt-3">
+        <div class="row">
+          <div class="col-sm-2" >
+            <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#usuario">Agregar usuario</button>
+            <div id="result_add"></div>
+          </div>
+          <div class="col-sm-8" id="resultado"></div>
+          <div class="col-sm-2" ></div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="myModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Detalles de la solicitud</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="cuerpo-modal">
+              Hide this modal and show the first with the button below.
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-dismiss="modal" id="btn-cerrar-modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="usuario" aria-hidden="true" aria-labelledby="usuarioToggleLabe" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Formulario</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="cuerpo-modal-usu">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" >RUT (Ejemplo 12345678-9)</span>
+                        <input type="text" class="form-control" id="rut" aria-label="Username" aria-describedby="basic-addon1" maxlength="10">
+                      </div>
+                      
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" >Nombre</span>
+                        <input type="text" class="form-control" id="nombre" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" >User name</span>
+                        <input type="text" class="form-control" id="user_name" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" >Correo</span>
+                        <input type="text" class="form-control" id="correo1" >
+                        <span class="input-group-text">@</span>
+                        <input type="text" class="form-control" id="correo2" >
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Tipo</span>
+                        <select class="form-control" id="tipo">
+                          <option value="1">Kinesiologo</option>
+                          <option value="2">Impresor</option>
+                          <option value="3">Jefe Kinesiologia</option>
+                          <option value="0">Administrador</option>
+                        </select>
+                        <span class="input-group-text">Ciudad</span>
+                        <select class="form-control" id="form-ciudad">
+                          
+                        </select>
+                      </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" id="guardarDatos">Agregar usuario</button>
+              <button class="btn btn-danger" data-bs-target="#exampleModalToggle" data-bs-dismiss="modal" id="btn-cerrar-modal2">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script>
+            $( document ).ready(function() {
+
+                muestra_datos();
+                
+                var parametros = {
+                "accion"   : "2"
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/usuario.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#form-ciudad").html(response);
+                    }
+                })
+
+                $("#guardarDatos").click(function() {
+                // Realiza la validación de campos vacíos
+                  if (!validarCampos()) {
+                      alert("Por favor completa todos los campos.");
+                      return;
+                  }
+
+                  // Obtiene los valores de los campos
+                  var rut = $("#rut").val();
+                  var nombre = $("#nombre").val();
+                  var userName = $("#user_name").val();
+                  var correo1 = $("#correo1").val();
+                  var correo2 = $("#correo2").val();
+                  var tipo = $("#tipo").val();
+                  var ciudad = $("#form-ciudad").val();
+
+                  // Realiza la petición AJAX
+                  $.ajax({
+                      type: "POST",
+                      url: "php/usuario.php", // Reemplaza con la URL correcta
+                      data: {
+                          "accion": 3,
+                          "rut": rut,
+                          "nombre": nombre,
+                          "userName": userName,
+                          "correo1": correo1,
+                          "correo2": correo2,
+                          "tipo": tipo,
+                          "ciudad": ciudad
+                      },
+                      success: function(response) {
+                          // Maneja la respuesta del servidor
+                          muestra_datos();
+                          $("#btn-cerrar-modal2").trigger("click");
+                          $("#result_add").html(response);
+                          
+                      },
+                      error: function(error) {
+                          console.error("Error en la petición AJAX: ", error);
+                      }
+                  });
+                });
+                
+            });
+            function muestra_datos() {
+              var parametros = {
+                "accion"   : "1",
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/usuario.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#resultado").html(response);
+                    }
+                });
+            }
+            function validarCampos() {
+                var campos = ["#rut", "#nombre", "#user_name", "#correo1", "#correo2", "#tipo", "#form-ciudad"];
+
+                for (var i = 0; i < campos.length; i++) {
+                    if ($(campos[i]).val() === "") {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            
+            
+        </script>
+
+    </body>
+</html>

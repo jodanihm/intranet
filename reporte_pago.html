@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Plantiflex</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  </head>
+    <body >
+      <div id="carga-modal-general" data-type="reporte_pago"></div>
+    
+      <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+          <div class="row w-100">
+            <div class="col-2">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> Menu
+              </button>
+            </div>
+            <div class="col-8">
+              <h5 class="text-center text-light mt-1">Reporte de pagos</h5>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </nav>
+      <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Plantiflex menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral">
+
+          </ul>
+        </div>
+      </div>
+      <div class="container-fluid mt-5 pt-2 ">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            
+            <div class="col-sm-10">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="text-center">Busqueda entre fechas</h5>
+                        
+                        <div class="row mt-2">
+                            <div class="col-sm-2">
+                              <select type="text" name="ciudad" id="ciudad"  class="form-control">
+
+                              </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="date" class="form-control" id="fecha_ini">  
+                                    
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="date" class="form-control" id="fecha_fin">  
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary w-100" id="btn-buscar">Buscar</button>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="toggleHiddenRows">
+                                <label class="form-check-label" for="toggleHiddenRows">
+                                    Mostrar filas ocultas
+                                </label>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+          <div class="col-sm-1"></div>
+          
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row mt-2">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10 ">
+            <div id="preload" class="text-center d-none">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" >
+                <circle fill="#4990E2" stroke="#4990E2" stroke-width="2" r="15" cx="40" cy="100">
+                  <animate attributeName="opacity" calcMode="spline" dur="4.6" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate>
+                </circle>
+                <circle fill="#4990E2" stroke="#4990E2" stroke-width="2" r="15" cx="100" cy="100">
+                  <animate attributeName="opacity" calcMode="spline" dur="4.6" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate>
+                </circle>
+                <circle fill="#4990E2" stroke="#4990E2" stroke-width="2" r="15" cx="160" cy="100">
+                  <animate attributeName="opacity" calcMode="spline" dur="4.6" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+                </circle>
+              </svg>
+            </div>
+
+
+            <div class="card shadow d-none" id="resultado">
+              <div class="card-body">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Pendientes</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Pagados</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Pagados finalizados</button>
+                  </li>
+                  
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade pt-2 show active py-2" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                          <h5 class="text-center">
+                              Resultado busqueda
+                          </h5>
+                          <table class="table table-hover text-center table-bordered" >
+                              <thead>
+                                  <tr>
+                                      <th scope="col">#</th>
+                                      <th scope="col">ID</th>
+                                      <th scope="col">Estado actual</th>
+                                      <th scope="col">Paciente</th>
+                                      <th scope="col">Fecha ingreso</th>
+                                      <th scope="col">Fecha solicitud de pago</th>
+                                      <th scope="col">Fecha pago</th>
+                                  </tr>
+                              </thead>
+                              <tbody id="pendientes">
+                              </tbody>
+                          </table>
+                  </div>
+                  <div class="tab-pane fade pt-2" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                    <h5 class="text-center">
+                      Resultado busqueda
+                    </h5>
+                    <table class="table table-hover text-center table-bordered" >
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Estado actual</th>
+                                <th scope="col">Paciente</th>
+                                <th scope="col">Fecha ingreso</th>
+                                <th scope="col">Fecha solicitud de pago</th>
+                                <th scope="col">Fecha pago</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pagados">
+                        </tbody>
+                    </table>
+                  </div>
+                  <div class="tab-pane fade pt-2" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                    <h5 class="text-center">
+                      Resultado busqueda
+                    </h5>
+                    <table class="table table-hover text-center table-bordered" >
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Estado actual</th>
+                                <th scope="col">Paciente</th>
+                                <th scope="col">Fecha ingreso</th>
+                                <th scope="col">Fecha solicitud de pago</th>
+                                <th scope="col">Fecha pago</th>
+                                <th scope="col">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody id="finalizados">
+                        </tbody>
+                    </table>
+
+                  </div>
+
+                </div>
+              </div>
+            </div> 
+
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+       
+      </div>
+      
+
+      
+      
+
+
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+        <script>
+            $( document ).ready(function() {
+                // Obtener la fecha actual
+                var fechaActual = new Date();
+
+                // Obtener el primer día del mes actual
+                var primerDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
+
+                // Obtener el último día del mes actual
+                var ultimoDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
+
+                // Función para formatear la fecha como "yyyy-mm-dd"
+                function formatDate(date) {
+                    var year = date.getFullYear();
+                    var month = ('0' + (date.getMonth() + 1)).slice(-2); // Agrega un cero adelante si es necesario
+                    var day = ('0' + date.getDate()).slice(-2); // Agrega un cero adelante si es necesario
+                    return year + '-' + month + '-' + day;
+                }
+
+                // Formatear las fechas y mostrar en la consola
+                var primerDiaFormateado = formatDate(primerDiaDelMes);
+                var ultimoDiaFormateado = formatDate(ultimoDiaDelMes);
+                $("#fecha_ini").val(primerDiaFormateado);
+                $("#fecha_fin").val(ultimoDiaFormateado);
+                //console.log("Primer día del mes: ", primerDiaFormateado);
+                //console.log("Último día del mes: ", ultimoDiaFormateado);
+
+                var parametros = {
+                "accion"   : "3"
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/reporte_pago.php',
+                    type: 'post',  
+                    success: function (response) {
+                      console.log(response);
+                      $("#ciudad").html(response);
+                      
+                    }
+                })
+
+            });
+            function buscar_fecha() {
+              var html ="";
+              var parametros = {
+                "accion"   : "1",
+                "fecha_ini": $("#fecha_ini").val(),
+                "fecha_fin": $("#fecha_fin").val(),
+                "ciudad" : $("#ciudad").val()
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/reporte_pago.php',
+                    type: 'post',
+                    dataType: 'json', 
+                    beforeSend: function () {
+
+                      $('#preload').removeClass("d-none");
+                      $('#resultado').addClass('d-none');
+                    }, 
+                    success: function (response) {
+                     //$("#resultado").html(response);
+                          
+                          $('#resultado').removeClass('d-none');
+                          $('#preload').addClass("d-none");
+
+                          $("#pendientes").html(""); 
+                          $("#pagados").html(""); 
+                          var pendientes = "";
+                          var pagados = "";
+
+
+                          $.each(response, function(index, data) { 
+
+                            let ini = new Date($("#fecha_ini").val() + " 00:00:00");
+                            let end = new Date($("#fecha_fin").val() + " 23:59:59");
+                            let fechaPago = data['fecha-pago'] ? new Date(data['fecha-pago']) : null;
+
+                            // Determinar la clase del <tr>
+                            let rowClass = "";
+                            if (fechaPago) {
+                                if (fechaPago < ini || fechaPago > end) {
+                                    rowClass = "d-none"; // Ocultar si está fuera del rango
+                                }
+                            } else {
+                                rowClass = "d-none"; // Ocultar si no hay fecha de pago
+                            }
+                            if (data['Pagado'] == 'Si') {
+                              pagados = pagados + `
+                                <tr class="${rowClass}">
+                                    <td>${index}</td>
+                                    <td class="py-2">
+                                        <button class="btn btn-dark btn-sm" onclick="detalle_solcitud_na('${data['id']}')">
+                                          ${data['id']}
+                                        </button>
+                                    </td>
+                                    <td>${data['estado']}</td>
+                                    <td>${data['nombre_paciente']}</td>
+                                    <td style="background-color: ${data['fecha-ingresada'] ? 'transparent' : '#ff9282'};">
+                                        ${data['fecha-ingresada'] || 'Sin datos'}
+                                    </td>
+                                    <td style="background-color: ${data['fecha-solicita-pago'] ? 'transparent' : '#ff9282'};">
+                                        ${data['fecha-solicita-pago'] || 'Sin datos'}
+                                    </td>
+                                    <td style="background-color: ${data['fecha-pago'] ? 'transparent' : '#ff9282'};">
+                                        ${data['fecha-pago'] || 'Sin datos'}
+                                    </td>
+                                </tr>
+                              `;
+                            }else{
+                              pendientes = pendientes + `
+                                <tr>
+                                    <td>${index}</td>
+                                    <td class="py-2">
+                                        <button class="btn btn-dark btn-sm" onclick="detalle_solcitud_na('${data['id']}')">
+                                          ${data['id']}
+                                        </button>
+                                    </td>
+                                    <td>${data['estado']}</td>
+                                    <td>${data['nombre_paciente']}</td>
+                                    <td style="background-color: ${data['fecha-ingresada'] ? 'transparent' : '#ff9282'};">
+                                        ${data['fecha-ingresada'] || 'Sin datos'}
+                                    </td>
+                                    <td style="background-color: ${data['fecha-solicita-pago'] ? 'transparent' : '#ff9282'};">
+                                        ${data['fecha-solicita-pago'] || 'Sin datos'}
+                                    </td>
+                                    <td style="background-color: ${data['fecha-pago'] ? 'transparent' : '#ff9282'};">
+                                        ${data['fecha-pago'] || 'Sin datos'}
+                                    </td>
+                                </tr>
+                              `;
+                            }
+                          });
+
+                          $("#pendientes").html(pendientes);
+                          $("#pagados").html(pagados);
+
+                          $("#toggleHiddenRows").on("change", function () {
+                              if ($(this).is(":checked")) {
+                                  // Mostrar filas ocultas
+
+                                  $("#pagados tr.d-none").removeClass("d-none").addClass("hidden-row").addClass("bg-secondary");
+                              } else {
+                                  // Ocultar filas de nuevo
+
+                                  $("#pagados tr.hidden-row").removeClass("hidden-row").addClass("d-none").removeClass("bg-secondary");
+                              }
+                          });
+
+                        
+                    }
+                });
+
+            }
+
+            function buscar_fecha2() {
+              var parametros = {
+                "accion"   : "2",
+                "fecha_ini": $("#fecha_ini").val(),
+                "fecha_fin": $("#fecha_fin").val(),
+                "ciudad" : $("#ciudad").val()
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/reporte_pago.php',
+                    type: 'post',
+                    dataType: 'json',  
+                    success: function (response) {
+                     //$("#resultado").html(response);
+                        console.log(response);
+                          $("#finalizados").html(""); 
+
+                          var finalizados = "";
+                          
+                          $.each(response, function(index, data) { 
+
+                              let ini = new Date($("#fecha_ini").val() + " 00:00:00");
+                              let end = new Date($("#fecha_fin").val() + " 23:59:59");
+                              let fechaPago = data['fecha-pago'] ? new Date(data['fecha-pago']) : null;
+
+                              // Determinar la clase del <tr>
+                              let rowClass = "";
+                              if (fechaPago) {
+                                  if (fechaPago < ini || fechaPago > end) {
+                                      rowClass = "d-none"; // Ocultar si está fuera del rango
+                                  }
+                              } else {
+                                  rowClass = "d-none"; // Ocultar si no hay fecha de pago
+                              }
+                              let monto = formatearMiles(data["pago"] || 0);
+                              finalizados = finalizados + `
+                                <tr class="${rowClass}">
+                                    <td>${index}</td>
+                                    <td class="py-2">
+                                        <button class="btn btn-dark btn-sm" onclick="detalle_solcitud_na('${data['id']}')">
+                                          ${data['id']}
+                                        </button>
+                                    </td>
+                                    <td>${data['estado']}</td>
+                                    <td>${data['nombre_paciente']}</td>
+                                    <td style="background-color: ${data['fecha-ingresada'] ? 'transparent' : '#ff9282'};">
+                                        ${data['fecha-ingresada'] || 'Sin datos'}
+                                    </td>
+                                    <td style="background-color: ${data['fecha-solicita-pago'] ? 'transparent' : '#ff9282'};">
+                                        ${data['fecha-solicita-pago'] || 'Sin datos'}
+                                    </td>
+                                    <td style="background-color: ${data['fecha-pago'] ? 'transparent' : '#ff9282'};">
+                                        ${data['fecha-pago'] || 'Sin datos'}
+                                    </td>
+                                    <td>$ ${monto}</td>
+                                </tr>
+                              `;
+                            
+                          });
+
+                          $("#toggleHiddenRows").on("change", function () {
+                              if ($(this).is(":checked")) {
+                                  // Mostrar filas ocultas
+                                  $("#finalizados tr.d-none").removeClass("d-none").addClass("hidden-row").addClass("bg-secondary");
+                                  
+                              } else {
+                                  // Ocultar filas de nuevo
+                                  $("#finalizados tr.hidden-row").removeClass("hidden-row").addClass("d-none").removeClass("bg-secondary");
+                                  
+                              }
+                          });
+
+                          $("#finalizados").html(finalizados);
+
+                        
+                    }
+                });
+
+            }
+            $("#btn-buscar").on('click', function () {
+              buscar_fecha();
+              buscar_fecha2();
+            });
+            function formatearMiles(numero) {
+                return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+        </script>
+
+    </body>
+</html>
