@@ -85,6 +85,7 @@ if ($_SESSION['tipo'] == 0) {
         <a class="nav-link" href="precios.html"><i class="bi bi-tags"></i> Mantenedor Precios</a>
     </li>
     <li class="nav-item">
+        
         <a class="nav-link" href="buscar.html"><i class="bi bi-search"></i> Buscador solicitudes (KINE)</a>
     </li>
     <li class="nav-item">
