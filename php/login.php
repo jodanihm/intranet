@@ -89,7 +89,7 @@ if ($accion == "validar_credenciales") {
                     $_SESSION['ciudad'] = $sucursal;
 
                     if ($_SESSION['tipo'] == 0) {
-                        $url = "estado_actual.html";
+                        $url = "impresion.html";
                     }
                     if ($_SESSION['tipo'] == 1) {
                         $url = "ingreso.html";
