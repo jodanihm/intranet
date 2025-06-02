@@ -89,11 +89,11 @@ if ($_POST['accion'] == 1) {
                 
                 //$ext = explode('.', $_FILES['file-iz']['name']);
 				$filename = $id . '-iz.gcode';
-				$destination = '../archive/' . $filename;
+				$destination = '../../../archive/' . $filename;
 				$location = $_FILES["file-iz"]["tmp_name"];
                 if (move_uploaded_file($location, $destination)) {
 
-                    $contenido = 'archive/'. $filename;
+                    $contenido = '../../archive/'. $filename;
 
                     $sql = "INSERT INTO solicitud (id, rut, orientacion, cantidad, gcode_iz, talla, dureza, forro, estado, peso, ciudad, convenio) 
                     VALUES ('$id', '$rut', '".$_POST['orientacion']."', '".$_POST['cantidad']."', 
@@ -121,21 +121,21 @@ if ($_POST['accion'] == 1) {
             if ($_FILES['file-iz']['name'] != "" && $_FILES['file-par']['name'] != "" && $_FILES['file-der']['name'] != "") {
 
                 $filename_iz = $id . '-iz.gcode';
-				$destination_iz = '../archive/' . $filename_iz;
+				$destination_iz = '../../../archive/' . $filename_iz;
 				$location_iz = $_FILES["file-iz"]["tmp_name"];
 
                 $filename_par = $id . '-par.gcode';
-				$destination_par = '../archive/' . $filename_par;
+				$destination_par = '../../../archive/' . $filename_par;
 				$location_par = $_FILES["file-par"]["tmp_name"];
 
                 $filename_der = $id . '-der.gcode';
-				$destination_der = '../archive/' . $filename_der;
+				$destination_der = '../../../archive/' . $filename_der;
 				$location_der = $_FILES["file-der"]["tmp_name"];
 
                 if (move_uploaded_file($location_iz, $destination_iz) && move_uploaded_file($location_par, $destination_par) && move_uploaded_file($location_der, $destination_der)) {
-                    $contenido_iz = 'archive/'. $filename_iz;
-                    $contenido_par = 'archive/'. $filename_par;
-                    $contenido_der = 'archive/'. $filename_der;
+                    $contenido_iz = '../../archive/'. $filename_iz;
+                    $contenido_par = '../../archive/'. $filename_par;
+                    $contenido_der = '../../archive/'. $filename_der;
 
                     $sql = "INSERT INTO solicitud (id, rut, orientacion, cantidad, gcode_iz, gcode_par, gcode_der, talla, dureza, forro, estado, peso, ciudad, convenio) 
                     VALUES ('$id',  '$rut', '".$_POST['orientacion']."', '".$_POST['cantidad']."', 
@@ -165,11 +165,11 @@ if ($_POST['accion'] == 1) {
             if ($_FILES['file-der']['name'] != "") {
 
                 $filename = $id . '-der.gcode';
-				$destination = '../archive/' . $filename;
+				$destination = '../../../archive/' . $filename;
 				$location = $_FILES["file-der"]["tmp_name"];
                 if (move_uploaded_file($location, $destination)) {
 
-                    $contenido = 'archive/'. $filename;
+                    $contenido = '../../archive/'. $filename;
                     $sql = "INSERT INTO solicitud (id, rut, orientacion, cantidad, gcode_der, talla, dureza, forro, estado, peso, ciudad, convenio) 
                     VALUES ('$id',  '$rut', '".$_POST['orientacion']."', '".$_POST['cantidad']."', 
                     '$contenido', '".$_POST['talla']."', '".$_POST['dureza']."', '".$_POST['c_forro']."', 'Ingresada', '".$_POST['peso']."', '".$_POST['ciudad']."', '".$_POST['convenio']."')";

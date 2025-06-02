@@ -253,20 +253,20 @@ if ($_POST['accion'] == 2) {
     if (isset($_FILES['update-file-iz']['name']) && !empty($_FILES['update-file-iz']['name'])) {
         $coment = $coment."Modificación archivo .gcode orientación izquierda<br>".$_POST['update-motivo'];
         $filename = $_POST['id'] . '-iz.gcode';
-        $destination = '../archive/' . $filename;
+        $destination = '../../../archive/' . $filename;
         $location = $_FILES["update-file-iz"]["tmp_name"];
         if (move_uploaded_file($location, $destination)) {
-            $contenido = 'archive/'. $filename;
+            $contenido = '../../archive/'. $filename;
         }
         $var = $var + 1;
     }
     if (isset($_FILES['update-file-par']['name']) && !empty($_FILES['update-file-par']['name'])) {
         $coment = $coment."Modificación archivo .gcode orientación par<br>".$_POST['update-motivo'];
         $filename = $_POST['id'] . '-par.gcode';
-        $destination = '../archive/' . $filename;
+        $destination = '../../../archive/' . $filename;
         $location = $_FILES["update-file-par"]["tmp_name"];
         if (move_uploaded_file($location, $destination)) {
-            $contenido = 'archive/'. $filename;
+            $contenido = '../../archive/'. $filename;
         }
         
         $var = $var + 1;
@@ -274,10 +274,10 @@ if ($_POST['accion'] == 2) {
     if (isset($_FILES['update-file-der']['name']) && !empty($_FILES['update-file-der']['name'])) {
         $coment = $coment."Modificación archivo .gcode orientación derecha<br>".$_POST['update-motivo'];
         $filename = $_POST['id'] . '-der.gcode';
-        $destination = '../archive/' . $filename;
+        $destination = '../../../archive/' . $filename;
         $location = $_FILES["update-file-der"]["tmp_name"];
         if (move_uploaded_file($location, $destination)) {
-            $contenido = 'archive/'. $filename;
+            $contenido = '../../archive/'. $filename;
         }
         $var = $var + 1;
     }
