@@ -1,6 +1,6 @@
 <?php
 require_once("connect.php");
-
+include("topbar.php");
 function btnEditar($tipo, $id) {
   return "<button class='btn btn-warning btn-sm' onclick=\"editarRegistro('$tipo','$id')\"><i class='bi bi-pencil'></i></button>";
 }

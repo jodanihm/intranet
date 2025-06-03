@@ -82,9 +82,6 @@ if ($_SESSION['tipo'] == 0) {
     </li>
     <hr>
     <li class="nav-item">
-        <a class="nav-link" href="precios.html"><i class="bi bi-tags"></i> Mantenedor Precios</a>
-    </li>
-    <li class="nav-item">
         
         <a class="nav-link" href="buscar.html"><i class="bi bi-search"></i> Buscador solicitudes (KINE)</a>
     </li>
@@ -113,6 +110,9 @@ if ($_SESSION['tipo'] == 0) {
     </li>
     <li class="nav-item">
         <a class="nav-link" href="admin_usuarios.html"><i class="bi bi-person-gear"></i> Cuentas de usuario</a>
+    </li>
+        <li class="nav-item">
+        <a class="nav-link" href="precios.html"><i class="bi bi-tags"></i> Mantenedor Precios</a>
     </li>
     <hr>
     <li class="nav-item">

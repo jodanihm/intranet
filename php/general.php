@@ -1,6 +1,5 @@
 <?php
 include ("connect.php");
-
 if ($_POST['accion'] == "seguridad") {
     //session_start();
     if (isset($_SESSION['rut']) ) {

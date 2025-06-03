@@ -1,5 +1,6 @@
 <?php
 include ("connect.php");
+include("topbar.php");
 
 /*
 echo $_POST['rut'];
