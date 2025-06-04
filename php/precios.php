@@ -1,6 +1,6 @@
 <?php
 require_once("connect.php");
-include("topbar.php");
+
 function btnEditar($tipo, $id) {
   return "<button class='btn btn-warning btn-sm' onclick=\"editarRegistro('$tipo','$id')\"><i class='bi bi-pencil'></i></button>";
 }
@@ -46,7 +46,12 @@ if (!$ciudades) {
     die("Error en la consulta de ciudades: " . $mysqli->error);
 }
 
-echo "<h5>Impuestos por ciudad</h5>
+echo "<div class='d-flex align-items-center gap-2 mt-4'>
+  <h4 class='mb-0'>Impuesto por Ciudad</h4>
+  <button class='btn btn-sm btn-success' onclick='nuevaCiudad()'>
+    <i class='bi bi-plus-circle'></i> Agregar Ciudad
+  </button>
+</div>
 <table class='table table-bordered table-sm'>
 <thead class='table-dark'>
 <tr>

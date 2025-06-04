@@ -24,12 +24,12 @@ $inicial = 'P';
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar">
         <span class="navbar-toggler-icon"></span> Menu
       </button>
-      <h5 class="text-light mb-0">Panel</h5>
+      <h5 class="text-light mb-0"> </h5>
       <div class="dropdown">
         <div class="user-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><?= $inicial ?></div>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><a class="dropdown-item" href="https://black.xhn.cl:2096/" target="_blank"><i class="bi bi-envelope-fill"></i> Webmail</a></li>
-          <li><a class="dropdown-item" href="logout.php"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a></li>
+          <li><a class="dropdown-item" href="php/logout.php"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a></li>
         </ul>
       </div>
     </div>

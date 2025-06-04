@@ -1,6 +1,6 @@
 <?php
 include ("connect.php");
-include("topbar.php");
+ 
 //header('Content-Type: text/html; charset=utf-8');
 
 if ($_POST['accion'] == 1) {   
@@ -58,7 +58,8 @@ if ($_POST['accion'] == 1) {
         $color = 'danger';
     }
     
-    
+ 
+
     $row_cnt2 = $result->num_rows;
     if ($row_cnt2 != 0) {
         ?>
@@ -137,6 +138,7 @@ if ($_POST['accion'] == 1) {
     
    
 }
+
 
 if ($_POST['accion'] == 2) {  
     $result=$mysqli->query("SELECT
