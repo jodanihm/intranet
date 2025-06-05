@@ -1,6 +1,6 @@
 <?php
 require_once("connect.php");
-
+include("topbar.php");
 $id = $_POST['id'] ?? null;
 
 if ($id !== null) {

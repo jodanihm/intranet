@@ -163,14 +163,37 @@ function detalle_solcitud_general(id)
                 var urlActual = window.location.href;
                 var nombreArchivo = urlActual.split('/').pop();
                 console.log (nombreArchivo,estado);
+
+                //************************************* envio mail por nuevo ingreso 
+
                 if (nombreArchivo == "ingreso.html" && estado == 'Pendiente') {
                     muestra_datos();
 
-                    var asunto = 'Nueva solicitud pendiente';
-                    var cuerpo = `El nuevo id generado es: ${id} `;
-                    //enviarCorreo(response[3], asunto, cuerpo);
-                    enviarCorreo("dhernandez@gmail.com", asunto, cuerpo);
-                       
+                    // Petición para obtener nombre y talla
+                 
+                    $.ajax({
+                        type: "POST",
+                        url: "php/general.php",
+                        dataType: "json", // <- Agregado para que la respuesta se trate como JSON
+                        data: {
+                            "id_solicitud": id,
+                            "accion": "extraer_paciente"
+                        },
+                        success: function(response) {
+                            const nombrePaciente = response[1] || "No disponible";
+                            const talla = response[2] || "No indicada";
+                            const asunto = 'Nueva solicitud pendiente';
+                            const cuerpo = `Nueva solicitud generada\n\nID: ${id}\nPaciente: ${nombrePaciente}\nTalla: ${talla}`;
+                            enviarCorreo("dhernandez@gmail.com", asunto, cuerpo);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error al obtener paciente:", error);
+                            const asunto = 'Nueva solicitud pendiente';
+                            const cuerpo = `Nueva solicitud generada\n\nID: ${id}\n(Paciente y talla no disponibles por error)`;
+                            enviarCorreo("dhernandez@gmail.com", asunto, cuerpo);
+                        }
+                    });
+
                 }
 
                 if (nombreArchivo == "impresion.html") {
@@ -267,15 +290,8 @@ function detalle_solcitud_general(id)
                 var urlActual = window.location.href;
                 var nombreArchivo = urlActual.split('/').pop();
 
-              if (nombreArchivo == "ingreso.html" && estado == 'Pendiente') {
-                    muestra_datos();
 
-                    var asunto = 'Nueva solicitud pendiente';
-                    var cuerpo = `El nuevo id generado es: ${id} `;
-                    //enviarCorreo(response[3], asunto, cuerpo);
-                    enviarCorreo("dhernandez@gmail.com", asunto, cuerpo);
-                       
-                }
+
                 
                 if (nombreArchivo == "impresion.html") {
                         carga_numeros();

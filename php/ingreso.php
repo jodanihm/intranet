@@ -1,6 +1,7 @@
 <?php
 include ("connect.php");
 
+
 /*
 echo $_POST['rut'];
 echo $_POST['nombre'];
@@ -13,6 +14,7 @@ echo $_POST['talla'];
 echo $_POST['dureza'];
 echo $_POST['c_forro'];
 */
+// Versión de desarrollo - prueba de rama dev
 if ($_POST['accion'] == 2) {
     $resultado=$mysqli->query("SELECT id, tipo, estado FROM forro ");
     ?>

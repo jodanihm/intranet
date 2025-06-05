@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Plantiflex</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  </head>
+  <body>
+    <div id="carga-modal-general" data-type="total_mensual"></div>
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <div class="row w-100">
+          <div class="col-2">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span> Menu
+            </button>
+          </div>
+          <div class="col-8">
+            <h5 class="text-center text-light mt-1">Total mensual</h5>
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </div>
+    </nav>
+    <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Plantiflex menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral">
+        </ul>
+      </div>
+    </div>
+    <br><br>
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-sm-12" id="resultado"></div>
+      </div>
+    </div>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="js/script.js"></script>
+    <script>
+      $(document).ready(function(){
+        cargarCiudades();
+      });
+
+      function cargarCiudades(){
+        $.ajax({
+          data: {accion: 1},
+          url: 'php/total_mensual.php',
+          type: 'post',
+          dataType: 'json',
+          success: function(response){
+            construirTabla(response.ciudades);
+          },
+          error: function(){
+            $('#resultado').html('<div class="alert alert-danger">No se pudieron cargar las ciudades</div>');
+          }
+        });
+      }
+
+      function construirTabla(ciudades){
+        let html = '<div class="table-responsive">';
+        html += '<table class="table table-bordered" id="tabla-ciudad">';
+        html += '<thead><tr><th>Ciudad</th><th>Valor con IVA</th><th>Valor sin IVA</th><th>Cant. plantillas</th><th>IVA</th><th>Total</th></tr></thead><tbody>';
+        ciudades.forEach(c => {
+          html += '<tr data-id="'+c.id+'">';
+          html += '<td>'+c.nombre+'</td>';
+          html += '<td><input type="text" class="form-control valor-ciudad" data-id="'+c.id+'" value="0"></td>';
+          html += '<td class="sin-iva">0</td>';
+          html += '<td class="plantillas">0</td>';
+          html += '<td class="iva">0</td>';
+          html += '<td class="total">0</td>';
+          html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        html += '<div class="row mt-3"><div class="col-sm-4">Pago impresor<input type="text" class="form-control numero-format" id="pago_impresor" value="0"></div>';
+        html += '<div class="col-sm-4">Otros gastos<input type="text" class="form-control numero-format" id="otros_gastos" value="0"></div>';
+        html += '<div class="col-sm-4">Otros ingresos<input type="text" class="form-control numero-format" id="otros_ingresos" value="0"></div></div>';
+        html += '<div class="row mt-3"><div class="col-sm-2">Mes<input type="number" class="form-control" id="mes" value="'+(new Date().getMonth()+1)+'"></div>';
+        html += '<div class="col-sm-2">Año<input type="number" class="form-control" id="anio" value="'+(new Date().getFullYear())+'"></div>';
+        html += '<div class="col-sm-8 d-flex align-items-end"><button class="btn btn-primary w-100" onclick="guardarTotales()">Guardar</button></div></div>';
+        html += '<div class="row mt-3"><div class="col-sm-12">Total Facturado: <span id="total_facturado">0</span></div>';
+        html += '<div class="col-sm-12">Comisión Administradora (5%): <span id="comision">0</span></div>';
+        html += '<div class="col-sm-12" id="estado-guardar"></div></div>';
+        $('#resultado').html(html);
+      }
+
+      $(document).on('input','.valor-ciudad', function(){
+        formatInput($(this));
+        recalcularFila($(this));
+        recalcularTotales();
+      });
+      $(document).on('input','.numero-format', function(){
+        formatInput($(this));
+        recalcularTotales();
+      });
+
+      function formatNumber(n){
+        return Number(n).toLocaleString('es-CL');
+      }
+
+      function parseNumber(str){
+        if(!str) return 0;
+        return parseFloat(str.toString().replace(/\./g,'').replace(',', '.')) || 0;
+      }
+
+      function formatInput($input){
+        let num = parseNumber($input.val());
+        $input.val(formatNumber(num));
+      }
+
+      function recalcularFila($input){
+        let valor = parseNumber($input.val());
+        let sin = valor / 1.19;
+        let plant = sin / 30000;
+        $input.closest('tr').find('.sin-iva').text(formatNumber(Math.round(sin)));
+        $input.closest('tr').find('.plantillas').text(plant.toFixed(2));
+        $input.closest('tr').find('.iva').text(formatNumber(Math.round(valor - sin)));
+        $input.closest('tr').find('.total').text(formatNumber(Math.round(valor)));
+      }
+
+      function recalcularTotales(){
+        let total = 0;
+        $('.valor-ciudad').each(function(){
+          total += parseNumber($(this).val());
+        });
+        $('#total_facturado').text(formatNumber(total));
+        let pago_imp = parseNumber($('#pago_impresor').val());
+        let gastos = parseNumber($('#otros_gastos').val());
+        let ingresos = parseNumber($('#otros_ingresos').val());
+        let neto = total - pago_imp - gastos + ingresos;
+        let comision = neto * 0.05;
+        $('#comision').text(formatNumber(Math.round(comision)));
+      }
+
+      function guardarTotales(){
+        let datos = {};
+        $('.valor-ciudad').each(function(){
+          datos[$(this).data('id')] = parseNumber($(this).val());
+        });
+        let parametros = {
+          accion: 2,
+          ciudades: JSON.stringify(datos),
+          mes: $('#mes').val(),
+          anio: $('#anio').val(),
+          pago_impresor: parseNumber($('#pago_impresor').val()),
+          otros_gastos: parseNumber($('#otros_gastos').val()),
+          otros_ingresos: parseNumber($('#otros_ingresos').val())
+        };
+        $.ajax({
+          data: parametros,
+          url: 'php/total_mensual.php',
+          type: 'post',
+          dataType: 'json',
+          success: function(response){
+            if(response.success){
+              $('#estado-guardar').html('Datos guardados con éxito');
+              alertToast('success','Datos guardados con éxito');
+              $('.valor-ciudad').val('0');
+              $('#pago_impresor,#otros_gastos,#otros_ingresos').val('0');
+              $('.valor-ciudad, #pago_impresor, #otros_gastos, #otros_ingresos').each(function(){
+                formatInput($(this));
+              });
+              $('.valor-ciudad').each(function(){
+                recalcularFila($(this));
+              });
+              recalcularTotales();
+            } else {
+              let msg = 'Error al guardar';
+              if(response.errors && response.errors.length){
+                msg += ': ' + response.errors.join('; ');
+              }
+              $('#estado-guardar').html(msg);
+            }
+          },
+          error: function(){
+            $('#estado-guardar').html('Error al guardar');
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,5 +1,6 @@
 <?php
 include ("connect.php");
+include("topbar.php");
 //header('Content-Type: text/html; charset=utf-8');
 
 if ($_POST['accion'] == 1) {   

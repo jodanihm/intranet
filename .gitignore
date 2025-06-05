@@ -1,0 +1,7 @@
+# Ignorar la carpeta donde se guardan los archivos gcode
+/archive/
+../../archive/
+*.gcode
+*.log
+*.zip
+*.bak

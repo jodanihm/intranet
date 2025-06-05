@@ -224,8 +224,75 @@ const form = `
         alert("Error de red o del servidor.");
       });
     }
+function nuevaCiudad() {
+  const form = `
+    <form id="form-nueva-ciudad">
+      <div class="mb-3">
+        <label>Nombre de la ciudad</label>
+        <input type="text" name="nombre" id="nombreCiudad" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label>Impuesto Adulto</label>
+        <input type="number" name="impuesto_adulto" id="impuestoAdulto" class="form-control" step="0.01" required>
+      </div>
+      <div class="mb-3">
+        <label>Impuesto Infantil</label>
+        <input type="number" name="impuesto_infantil" id="impuestoInfantil" class="form-control" step="0.01" required>
+      </div>
+    </form>
+  `;
+
+  document.getElementById('tituloModal').innerText = 'Agregar Nueva Ciudad';
+  document.getElementById('cuerpo-modal').innerHTML = form;
+
+  const btnGuardar = document.getElementById('btnGuardarCambios');
+  const nuevoBtn = btnGuardar.cloneNode(true);
+  btnGuardar.parentNode.replaceChild(nuevoBtn, btnGuardar);
+  nuevoBtn.addEventListener('click', guardarNuevaCiudad);
+
+  new bootstrap.Modal(document.getElementById('modalEditar')).show();
+}
+
+
+function guardarNuevaCiudad() {
+  const nombre = document.getElementById('nombreCiudad').value.trim();
+  const impuesto_adulto = parseFloat(document.getElementById('impuestoAdulto').value) || 0;
+  const impuesto_infantil = parseFloat(document.getElementById('impuestoInfantil').value) || 0;
+
+  if (!nombre) {
+    alert("El nombre de la ciudad no puede estar vacío.");
+    return;
+  }
+
+  fetch('php/agregar_ciudad.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      nombre: nombre,
+      impuesto_adulto: impuesto_adulto,
+      impuesto_infantil: impuesto_infantil
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert(data.message);
+      document.getElementById('modalEditar').querySelector('.btn-close').click();
+      cargarTablas();
+    } else {
+      alert("Error: " + data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert("Ocurrió un error al guardar la ciudad");
+  });
+}
+
+
 
    </script>
 
   </body>
+  
 </html>

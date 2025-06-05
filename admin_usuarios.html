@@ -6,8 +6,44 @@
   <title>Administración de Usuarios</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    .user-icon {
+      background-color: #183074;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
+
+<!-- Navbar superior -->
+<nav class="navbar navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <div class="d-flex w-100 align-items-center justify-content-between">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar">
+        <span class="navbar-toggler-icon"></span> Menu
+      </button>
+      <h5 class="text-light mb-0">Panel administración usuarios</h5>
+      <div class="dropdown">
+        <?php
+          $inicial = isset($_SESSION['name']) ? strtoupper(substr($_SESSION['name'], 0, 1)) : 'U';
+        ?>
+        <div class="user-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><?= $inicial ?></div>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="https://black.xhn.cl:2096/" target="_blank"><i class="bi bi-envelope-fill"></i> Ir a Webmail</a></li>
+          <li><a class="dropdown-item" href="php/logout.php"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
 
 <!-- Menú lateral -->
 <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar">
@@ -19,22 +55,6 @@
     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral"></ul>
   </div>
 </div>
-
-<!-- Navbar superior -->
-<nav class="navbar navbar-dark bg-dark fixed-top">
-  <div class="container-fluid">
-    <div class="row w-100">
-      <div class="col-2">
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar">
-          <span class="navbar-toggler-icon"></span> Menu
-        </button>
-      </div>
-      <div class="col-8">
-        <h5 class="text-center text-light mt-1">Panel administración usuarios</h5>
-      </div>
-    </div>
-  </div>
-</nav>
 
 <!-- Contenido -->
 <div class="container-fluid mt-5 pt-4">
@@ -48,7 +68,7 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal usuario -->
 <div class="modal fade" id="modalUsuario" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -94,14 +114,13 @@
     </div>
   </div>
 </div>
-      <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-        <script src="js/script.js"></script>
-   
 
 <!-- Scripts -->
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"></script>
+
 <script>
 let modoAgregar = false;
 
@@ -110,31 +129,39 @@ function tipoTexto(tipo) {
 }
 
 function cargarUsuarios() {
-  fetch('php/listar_usuarios.php')
-    .then(r => r.json())
-    .then(data => {
-      let html = `<table class='table table-striped'><thead><tr><th>RUT</th><th>Nombre</th><th>Usuario</th><th>Correo</th><th>Tipo</th><th>Ciudad</th><th>Acciones</th></tr></thead><tbody>`;
-      data.forEach(u => {
-        html += `<tr>
-          <td>${u.rut}</td>
-          <td>${u.name}</td>
-          <td>${u.user_name}</td>
-          <td>${u.mail}</td>
-          <td>${tipoTexto(u.type)}</td>
-          <td>${u.ciudad_nombre || 'Sin asignar'}</td>
-          <td>
-            <button class='btn btn-warning btn-sm' onclick='editarUsuario(${JSON.stringify(u)})'><i class='bi bi-pencil'></i></button>
-            <button class='btn btn-danger btn-sm' onclick='eliminarUsuario("${u.rut}")'><i class='bi bi-trash'></i></button>
-          </td>
-        </tr>`;
-      });
-      html += '</tbody></table>';
-      document.getElementById('resultado').innerHTML = html;
+  fetch('php/usuarios.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: new URLSearchParams({accion: 'listar'})
+  })
+  .then(r => r.json())
+  .then(data => {
+    let html = `<table class='table table-striped'><thead><tr><th>RUT</th><th>Nombre</th><th>Usuario</th><th>Correo</th><th>Tipo</th><th>Ciudad</th><th>Acciones</th></tr></thead><tbody>`;
+    data.forEach(u => {
+      html += `<tr>
+        <td>${u.rut}</td>
+        <td>${u.name}</td>
+        <td>${u.user_name}</td>
+        <td>${u.mail}</td>
+        <td>${tipoTexto(u.type)}</td>
+        <td>${u.ciudad_nombre || 'Sin asignar'}</td>
+        <td>
+          <button class='btn btn-warning btn-sm' onclick='editarUsuario(${JSON.stringify(u)})'><i class='bi bi-pencil'></i></button>
+          <button class='btn btn-danger btn-sm' onclick='eliminarUsuario("${u.rut}")'><i class='bi bi-trash'></i></button>
+        </td>
+      </tr>`;
     });
+    html += '</tbody></table>';
+    document.getElementById('resultado').innerHTML = html;
+  });
 }
 
 async function cargarCiudades(seleccionada = null) {
-  const res = await fetch('php/listar_ciudades.php');
+  const res = await fetch('php/usuarios.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: new URLSearchParams({accion: 'ciudades'})
+  });
   const data = await res.json();
   const select = document.getElementById('editCiudad');
   select.innerHTML = '';
@@ -175,6 +202,7 @@ async function abrirModalAgregar() {
 
 function guardarCambios() {
   const datos = {
+    accion: modoAgregar ? 'agregar' : 'editar',
     rut: document.getElementById('editRut').value,
     nombre: document.getElementById('editNombre').value,
     usuario: document.getElementById('editUsuario').value,
@@ -183,17 +211,15 @@ function guardarCambios() {
     ciudad: parseInt(document.getElementById('editCiudad').value)
   };
 
-  const url = modoAgregar ? 'php/agregar_usuario.php' : 'php/editar_usuario.php';
-
-  fetch(url, {
+  fetch('php/usuarios.php', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(datos)
   })
   .then(r => r.json())
   .then(data => {
     if (data.success) {
-      alertToast('success',modoAgregar ? 'Usuario agregado' : 'Usuario actualizado');
+      alert(modoAgregar ? 'Usuario agregado' : 'Usuario actualizado');
       bootstrap.Modal.getInstance(document.getElementById('modalUsuario')).hide();
       cargarUsuarios();
     } else {
@@ -205,10 +231,10 @@ function guardarCambios() {
 function eliminarUsuario(rut) {
   if (!confirm('¿Eliminar este usuario?')) return;
 
-  fetch('php/eliminar_usuario.php', {
+  fetch('php/usuarios.php', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ rut })
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({accion: 'eliminar', rut})
   })
   .then(r => r.json())
   .then(data => {
@@ -223,5 +249,6 @@ function eliminarUsuario(rut) {
 
 window.onload = cargarUsuarios;
 </script>
+
 </body>
 </html>
