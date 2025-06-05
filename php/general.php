@@ -924,23 +924,37 @@ if ($_POST['accion'] == "detalle-solicitud2") {
     <?php
     
 }
+if ($_POST['accion'] == 'extraer_paciente') {
 
-if ($_POST['accion'] == "extraer_paciente"){
-    $resultado=$mysqli->query("SELECT
-    COALESCE(s.rut, st.rut) AS rut_paciente,
-    COALESCE(p.nombre, pt.nombre) AS nombre_paciente,
-    COALESCE(p.fono, pt.fono) AS fono_paciente,
-    COALESCE(p.correo, pt.correo) AS correo_paciente
-    FROM solicitud s
-    LEFT JOIN paciente p ON s.rut = p.rut
-    LEFT JOIN solicitud_ter st ON s.id = st.id
-    LEFT JOIN paciente pt ON st.rut = pt.rut
-    WHERE s.id = '".$_POST['id_solicitud']."' OR st.id = '".$_POST['id_solicitud']."'
-    ");
+    $id = $_POST['id_solicitud'];
 
-    $row = $resultado->fetch_array();
-    $array = array($row[0],$row[1],$row[2],$row[3]);
+    // DEBUG: Mostrar error SQL si ocurre
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    echo json_encode($array);
-} 
+    try {
+        $sql = "SELECT p.nombre, o.talla FROM solicitud o 
+                INNER JOIN paciente p ON p.rut = o.rut 
+                WHERE o.id = '$id' LIMIT 1";
+
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+
+        $nombre = $row['nombre'] ?? '';
+        $talla = $row['talla'] ?? '';
+
+        echo json_encode([$id, $nombre, $talla]);
+    } catch (Exception $e) {
+        // Muestra el error directamente
+        http_response_code(500);
+        echo json_encode(["ERROR", $e->getMessage()]);
+    }
+
+    exit;
+}
+
+
+
+
+
+
 ?>

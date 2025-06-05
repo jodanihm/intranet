@@ -106,6 +106,9 @@ if ($_SESSION['tipo'] == 0) {
     </li>
     <hr>
     <li class="nav-item">
+        <a class="nav-link" href="total_mensual.html"><i class="bi bi-calculator"></i> Total mensual</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="estado_actual.html"><i class="bi bi-activity"></i> Estado Actual</a>
     </li>
     <li class="nav-item">

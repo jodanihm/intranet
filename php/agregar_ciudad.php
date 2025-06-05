@@ -1,36 +1,48 @@
 <?php
+header('Content-Type: application/json');
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once("connect.php");
 
-$nombre = trim($_POST['nombre'] ?? '');
-$imp_adulto = floatval($_POST['impuesto_adulto'] ?? 0);
-$imp_infantil = floatval($_POST['impuesto_infantil'] ?? 0);
+$input = json_decode(file_get_contents("php://input"), true);
 
-// Validación
-if ($nombre === '') {
-  echo json_encode(['success' => false, 'message' => 'El nombre de la ciudad no puede estar vacío.']);
-  exit;
+if (!$input) {
+    echo json_encode(["success" => false, "message" => "No se recibieron datos válidos"]);
+    exit;
 }
 
-// Verificar duplicado
-$stmt = $mysqli->prepare("SELECT COUNT(*) FROM ciudad WHERE nombre = ?");
-$stmt->bind_param("s", $nombre);
-$stmt->execute();
-$stmt->bind_result($existe);
-$stmt->fetch();
-$stmt->close();
+$nombre = trim($input['nombre']);
+$adulto = floatval($input['impuesto_adulto']);
+$infantil = floatval($input['impuesto_infantil']);
+
+if ($nombre === '') {
+    echo json_encode(["success" => false, "message" => "El nombre de la ciudad no puede estar vacío"]);
+    exit;
+}
+
+// Verifica si ya existe
+$query = $mysqli->prepare("SELECT COUNT(*) FROM ciudad WHERE nombre = ?");
+$query->bind_param("s", $nombre);
+$query->execute();
+$query->bind_result($existe);
+$query->fetch();
+$query->close();
 
 if ($existe > 0) {
-  echo json_encode(['success' => false, 'message' => 'La ciudad ya existe.']);
-  exit;
+    echo json_encode(["success" => false, "message" => "La ciudad ya está registrada"]);
+    exit;
 }
 
-// Insertar solo los tres campos obligatorios, y el resto se deja con valores por defecto
+// Insertar la nueva ciudad
 $stmt = $mysqli->prepare("INSERT INTO ciudad (nombre, impuesto_adulto, impuesto_infantil, nombre_centro, correo, fono, direccion, imagen, estado, precio_reserva) VALUES (?, ?, ?, '', '', '', '', '', 0, 0)");
-$stmt->bind_param("sdd", $nombre, $imp_adulto, $imp_infantil);
+$stmt->bind_param("sdd", $nombre, $adulto, $infantil);
 
 if ($stmt->execute()) {
-  echo json_encode(['success' => true]);
+    echo json_encode(["success" => true, "message" => "Ciudad agregada correctamente"]);
 } else {
-  echo json_encode(['success' => false, 'message' => 'Error al guardar: ' . $stmt->error]);
+    echo json_encode(["success" => false, "message" => "Error al agregar ciudad: " . $stmt->error]);
 }
+
 $stmt->close();
+?>

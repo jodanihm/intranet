@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
   <head>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -119,6 +119,52 @@
                 })
           }; 
     </script>
+<script>
+  $(document).ready(function () {
+    // Enter en usuario => mover al campo contraseña
+    $('#user_id').keypress(function (e) {
+      if (e.which === 13) {
+        e.preventDefault();
+        $('#pass').focus();
+      }
+    });
+
+    // Enter en contraseña => iniciar sesión
+    $('#pass').keypress(function (e) {
+      if (e.which === 13) {
+        e.preventDefault();
+        validar_credenciales();
+      }
+    });
+
+    // Clic en botón también inicia sesión
+    $('#btnEntrar').click(function() {
+      validar_credenciales();
+    });
+
+    function validar_credenciales(){
+      var parametros = {
+          "accion" : "validar_credenciales",
+          "user"   : $("#user_id").val(),
+          "pass"   : $("#pass").val()
+      };
+      $.ajax({              
+          data:  parametros,
+          url:   'php/login.php',
+          type:  'post',
+          dataType: 'json',
+          success: function (response) {
+            if (response['status'] == "error") {
+              $("#resp").html("<div class='alert alert-danger alert-dismissible fade show' role='alert'><strong>"+response['message']+"</strong></div>");
+            };
+            if (response['status'] == "success") {
+              location.assign(response['init']);
+            };
+          }
+      });
+    }
+  });
+</script>
 
     </body>
 </html>

@@ -229,15 +229,15 @@ function nuevaCiudad() {
     <form id="form-nueva-ciudad">
       <div class="mb-3">
         <label>Nombre de la ciudad</label>
-        <input type="text" name="nombre" class="form-control" required>
+        <input type="text" name="nombre" id="nombreCiudad" class="form-control" required>
       </div>
       <div class="mb-3">
         <label>Impuesto Adulto</label>
-        <input type="number" name="impuesto_adulto" class="form-control" step="0.01" required>
+        <input type="number" name="impuesto_adulto" id="impuestoAdulto" class="form-control" step="0.01" required>
       </div>
       <div class="mb-3">
         <label>Impuesto Infantil</label>
-        <input type="number" name="impuesto_infantil" class="form-control" step="0.01" required>
+        <input type="number" name="impuesto_infantil" id="impuestoInfantil" class="form-control" step="0.01" required>
       </div>
     </form>
   `;
@@ -255,34 +255,41 @@ function nuevaCiudad() {
 
 
 function guardarNuevaCiudad() {
-  const form = document.getElementById('form-nueva-ciudad');
-  if (!form) {
-    alert("Formulario no encontrado.");
+  const nombre = document.getElementById('nombreCiudad').value.trim();
+  const impuesto_adulto = parseFloat(document.getElementById('impuestoAdulto').value) || 0;
+  const impuesto_infantil = parseFloat(document.getElementById('impuestoInfantil').value) || 0;
+
+  if (!nombre) {
+    alert("El nombre de la ciudad no puede estar vacío.");
     return;
   }
 
-  const datos = new FormData(form);
-  datos.append('tipo', 'ciudad');
-
   fetch('php/agregar_ciudad.php', {
     method: 'POST',
-    body: datos
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      nombre: nombre,
+      impuesto_adulto: impuesto_adulto,
+      impuesto_infantil: impuesto_infantil
+    })
   })
-  .then(res => res.json())
+  .then(response => response.json())
   .then(data => {
     if (data.success) {
-      alert("Ciudad agregada correctamente.");
+      alert(data.message);
       document.getElementById('modalEditar').querySelector('.btn-close').click();
       cargarTablas();
     } else {
-      alert("Error: " + (data.message || 'No se pudo guardar la ciudad.'));
+      alert("Error: " + data.message);
     }
   })
-  .catch(err => {
-    console.error(err);
-    alert("Error de red o del servidor.");
+  .catch(error => {
+    console.error('Error:', error);
+    alert("Ocurrió un error al guardar la ciudad");
   });
 }
+
+
 
    </script>
 
