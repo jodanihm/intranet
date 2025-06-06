@@ -9,6 +9,7 @@ if ($_SESSION['tipo'] != 0) {
         <li class="nav-item">
             <a class="nav-link active" href="buscar.html"><i class="bi bi-search"></i> Buscador solicitudes</a>
         </li>
+        
         <li class="nav-item">
             <a class="nav-link" href="pendientes.html"><i class="bi bi-hourglass-split"></i> Pendiente en Fábrica</a>
         </li>
@@ -106,6 +107,9 @@ if ($_SESSION['tipo'] == 0) {
     </li>
     <hr>
     <li class="nav-item">
+        <a class="nav-link" href="buscar_general.html"><i class="bi bi-search-heart"></i> Consulta General</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="total_mensual.html"><i class="bi bi-calculator"></i> Venta mensual</a>
     </li>
     <li class="nav-item">
@@ -123,6 +127,7 @@ if ($_SESSION['tipo'] == 0) {
             <i class="bi bi-box-arrow-up-right"></i> https://plantillas.newfeetserver.es/login
         </a>
     </li>
+
 <?php } ?>
 
 <button class="btn btn-secondary btn-sm mt-3" disabled>

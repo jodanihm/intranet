@@ -1,7 +1,6 @@
 <?php
 include ("connect.php");
 
-
 /*
 echo $_POST['rut'];
 echo $_POST['nombre'];

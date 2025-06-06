@@ -107,6 +107,13 @@
           <select id="editCiudad" class="form-select"></select>
         </div>
       </div>
+      <div class="mb-2">
+          <label class="form-label">Estado</label>
+          <select id="editEstado" class="form-select">
+            <option value="1">Activo</option>
+            <option value="0">Inactivo</option>
+          </select>
+        </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         <button class="btn btn-primary" id="btnGuardar" onclick="guardarCambios()">Guardar Cambios</button>
@@ -136,15 +143,16 @@ function cargarUsuarios() {
   })
   .then(r => r.json())
   .then(data => {
-    let html = `<table class='table table-striped'><thead><tr><th>RUT</th><th>Nombre</th><th>Usuario</th><th>Correo</th><th>Tipo</th><th>Ciudad</th><th>Acciones</th></tr></thead><tbody>`;
+        let html = `<table class='table table-striped'><thead><tr><th>RUT</th><th>Nombre</th><th>Usuario</th><th>Correo</th><th>Tipo</th><th>Ciudad</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>`;
     data.forEach(u => {
-      html += `<tr>
+       html += `<tr class="${u.estado == 1 ? 'table-success' : 'table-danger'}">
         <td>${u.rut}</td>
         <td>${u.name}</td>
         <td>${u.user_name}</td>
         <td>${u.mail}</td>
         <td>${tipoTexto(u.type)}</td>
         <td>${u.ciudad_nombre || 'Sin asignar'}</td>
+        <td><span class="badge ${u.estado == 1 ? 'bg-success' : 'bg-danger'}">${u.estado == 1 ? 'Activo' : 'Inactivo'}</span></td>
         <td>
           <button class='btn btn-warning btn-sm' onclick='editarUsuario(${JSON.stringify(u)})'><i class='bi bi-pencil'></i></button>
           <button class='btn btn-danger btn-sm' onclick='eliminarUsuario("${u.rut}")'><i class='bi bi-trash'></i></button>
@@ -184,6 +192,7 @@ function editarUsuario(u) {
   document.getElementById('editMail').value = u.mail;
   document.getElementById('editTipo').value = u.type;
   cargarCiudades(u.ciudad);
+  document.getElementById('editEstado').value = u.estado;
   new bootstrap.Modal(document.getElementById('modalUsuario')).show();
 }
 
@@ -197,6 +206,7 @@ async function abrirModalAgregar() {
   document.getElementById('editMail').value = '';
   document.getElementById('editTipo').value = '0';
   await cargarCiudades();
+  document.getElementById('editEstado').value = '1';
   new bootstrap.Modal(document.getElementById('modalUsuario')).show();
 }
 
@@ -208,7 +218,8 @@ function guardarCambios() {
     usuario: document.getElementById('editUsuario').value,
     mail: document.getElementById('editMail').value,
     tipo: parseInt(document.getElementById('editTipo').value),
-    ciudad: parseInt(document.getElementById('editCiudad').value)
+    ciudad: parseInt(document.getElementById('editCiudad').value),
+    estado: parseInt(document.getElementById('editEstado').value)
   };
 
   fetch('php/usuarios.php', {

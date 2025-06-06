@@ -35,10 +35,10 @@ switch ($accion) {
     $mail = $input['mail'];
     $tipo = $input['tipo'];
     $ciudad = $input['ciudad'];
+    $estado = isset($input['estado']) ? (int)$input['estado'] : 1;
     $pass = password_hash('123456', PASSWORD_DEFAULT);
-    
-    $stmt = $mysqli->prepare("INSERT INTO user (rut, name, user_name, pass, mail, type, ciudad) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssis", $rut, $nombre, $usuario, $pass, $mail, $tipo, $ciudad);
+     $stmt = $mysqli->prepare("INSERT INTO user (rut, name, user_name, pass, mail, type, ciudad, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssiii", $rut, $nombre, $usuario, $pass, $mail, $tipo, $ciudad, $estado);
     if ($stmt->execute()) {
       echo json_encode(["success" => true]);
     } else {
@@ -53,9 +53,9 @@ switch ($accion) {
     $mail = $input['mail'];
     $tipo = $input['tipo'];
     $ciudad = $input['ciudad'];
-
-    $stmt = $mysqli->prepare("UPDATE user SET name=?, user_name=?, mail=?, type=?, ciudad=? WHERE rut=?");
-    $stmt->bind_param("sssiss", $nombre, $usuario, $mail, $tipo, $ciudad, $rut);
+    $estado = isset($input['estado']) ? (int)$input['estado'] : 1;
+    $stmt = $mysqli->prepare("UPDATE user SET name=?, user_name=?, mail=?, type=?, ciudad=?, estado=? WHERE rut=?");
+    $stmt->bind_param("sssiiis", $nombre, $usuario, $mail, $tipo, $ciudad, $estado, $rut);
     if ($stmt->execute()) {
       echo json_encode(["success" => true]);
     } else {
