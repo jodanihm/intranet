@@ -78,6 +78,14 @@ if ($tipo === 'precio') {
       <label>Impuesto Infantil</label>
       <input type="number" step="0.01" class="form-control" name="impuesto_infantil" value="<?php echo $dato['impuesto_infantil']; ?>">
     </div>
+    <div class="mb-3">
+      <label>Estado</label>
+      <select class="form-select" name="estado">
+        <option value="1" <?php echo $dato['estado'] == 1 ? 'selected' : ''; ?>>Activa</option>
+        <option value="0" <?php echo $dato['estado'] == 0 ? 'selected' : ''; ?>>Inactiva</option>
+      </select>
+    </div>
+  </form>
   </form>
 
 <?php
