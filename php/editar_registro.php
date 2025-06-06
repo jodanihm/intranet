@@ -1,6 +1,6 @@
 <?php
 require_once("connect.php");
-include("topbar.php");
+
 $tipo = $_POST['tipo'] ?? '';
 $id = $_POST['id'] ?? '';
 
