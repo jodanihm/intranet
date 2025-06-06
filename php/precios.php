@@ -58,8 +58,8 @@ echo "<div class='d-flex align-items-center gap-2 mt-4'>
   <th>Ciudad</th>
   <th>Impuesto Adulto</th>
   <th>Impuesto Infantil</th>
-  <th>Editar</th>
   <th>Estado</th>
+  <th>Editar</th>
 </tr>
 </thead><tbody>";
 
