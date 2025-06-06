@@ -35,9 +35,11 @@ if ($tipo === 'precio') {
     $imp_adulto = $_POST['impuesto_adulto'] ?? 0;
     $imp_infantil = $_POST['impuesto_infantil'] ?? 0;
 
-    $query = $mysqli->prepare("UPDATE ciudad SET impuesto_adulto=?, impuesto_infantil=? WHERE id=?");
-    $query->bind_param("ddi", $imp_adulto, $imp_infantil, $id);
+        $estado = isset($_POST['estado']) ? intval($_POST['estado']) : 0;
 
+    $query = $mysqli->prepare("UPDATE ciudad SET impuesto_adulto=?, impuesto_infantil=?, estado=? WHERE id=?");
+    $query->bind_param("ddii", $imp_adulto, $imp_infantil, $estado, $id);
+    
     if ($query->execute()) {
         echo json_encode(['success' => true]);
     } else {

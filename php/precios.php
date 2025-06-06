@@ -59,6 +59,7 @@ echo "<div class='d-flex align-items-center gap-2 mt-4'>
   <th>Impuesto Adulto</th>
   <th>Impuesto Infantil</th>
   <th>Editar</th>
+  <th>Estado</th>
 </tr>
 </thead><tbody>";
 
@@ -67,6 +68,7 @@ while ($row = $ciudades->fetch_assoc()) {
     <td>{$row['nombre']}</td>
     <td>{$row['impuesto_adulto']}</td>
     <td>{$row['impuesto_infantil']}</td>
+    <td>" . ($row['estado'] == 1 ? 'Activa' : 'Inactiva') . "</td>
     <td>" . btnEditar("ciudad", $row['id']) . "</td>
   </tr>";
 }
