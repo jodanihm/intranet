@@ -925,6 +925,7 @@ if ($_POST['accion'] == "detalle-solicitud2") {
     
 }
 if ($_POST['accion'] == 'extraer_paciente') {
+    require_once("connect.php");
 
     $id = $_POST['id_solicitud'];
 
@@ -932,7 +933,7 @@ if ($_POST['accion'] == 'extraer_paciente') {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
     try {
-        $sql = "SELECT p.nombre, o.talla FROM solicitud o 
+        $sql = "SELECT p.nombre, o.talla FROM ordenes o 
                 INNER JOIN paciente p ON p.rut = o.rut 
                 WHERE o.id = '$id' LIMIT 1";
 

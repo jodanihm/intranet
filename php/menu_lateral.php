@@ -98,6 +98,9 @@ if ($_SESSION['tipo'] == 0) {
     <li class="nav-item">
         <a class="nav-link" href="timeline.html"><i class="bi bi-bar-chart-line"></i> Gráfico horas fab. (ADMIN)</a>
     </li>
+      <li class="nav-item">
+        <a class="nav-link" href="ver_gcode.html"><i class="bi bi-search"></i> Ver Archivos Gcode</a>
+    </li>
     <hr>
     <li class="nav-item">
         <a class="nav-link" href="resumen_mensual.html"><i class="bi bi-calendar-check"></i> Resumen mensual</a>

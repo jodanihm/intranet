@@ -9,47 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <style>
-@media print {
-  body * {
-    visibility: hidden;
-  }
-  #etiqueta, #etiqueta * {
-    visibility: visible;
-  }
-  #etiqueta {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50mm;
-    height: 30mm;
-    padding: 2mm;
-    font-size: 6pt;
-    line-height: 1.1;
-    border: none;
-  }
-}
-
-#etiqueta {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 50mm;
-  height: 30mm;
-  padding: 2mm;
-  font-size: 6pt;
-  line-height: 1.1;
-  display: none;
-}
-</style>
-
-<script>
-function imprimirEtiqueta() {
-  const etiqueta = document.getElementById('etiqueta');
-  etiqueta.style.display = 'block';
-  window.print();
-  etiqueta.style.display = 'none';
-}
-</script>
   </head>
     <body class="align-items-center bg-body-tertiary">
       <div id="carga-modal-general" data-type="estado-actual" ></div>
@@ -109,7 +68,9 @@ function imprimirEtiqueta() {
                   <a class="list-group-item d-flex justify-content-between align-items-center" id="list-pagado-list" data-bs-toggle="list" href="#list-pagado" role="tab" aria-controls="list-pagado" onclick="muestra_datos('Pagado')">Pagado<span id="num-pagado" class="badge bg-dark rounded-pill"></span></a>
                   <a class="list-group-item d-flex justify-content-between align-items-center" id="list-pagadoaimpresor-list" data-bs-toggle="list" href="#list-pagadoaimpresor" role="tab" aria-controls="list-pagadoaimpresor" onclick="muestra_datos('Pagado a impresor')">Pagado a impresor<span id="num-pagadoaimpresor" class="badge bg-dark rounded-pill"></span></a>
                   <a class="list-group-item d-flex justify-content-between align-items-center" id="list-finalizado-list" data-bs-toggle="list" href="#list-finalizado" role="tab" aria-controls="list-finalizado" onclick="muestra_datos('Finalizado')">Finalizado<span id="num-finalizado" class="badge bg-primary rounded-pill"></span></a>
-                </div> 
+                </div>
+                
+                
               </div>
             </div>
             

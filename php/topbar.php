@@ -24,7 +24,7 @@ $inicial = 'P';
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar">
         <span class="navbar-toggler-icon"></span> Menu
       </button>
-      <h5 class="text-light mb-0"> </h5>
+      <h5 class="text-light mb-0">Panel</h5>
       <div class="dropdown">
         <div class="user-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><?= $inicial ?></div>
         <ul class="dropdown-menu dropdown-menu-end">

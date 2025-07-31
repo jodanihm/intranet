@@ -1,38 +1,32 @@
 <?php
+// 👇 ¡No pongas nada antes de esta línea!
+
 require_once("connect.php");
 
-// Obtener datos del formulario
-$nombre = $_POST['nombre'] ?? '';
+header('Content-Type: application/json');
+
+// Evita que PHP imprima errores como HTML
+ini_set('display_errors', 0);
+error_reporting(0);
+
+$nombre = trim($_POST['nombre'] ?? '');
 $descuento = $_POST['descuento'] ?? '';
 
-// Validar datos
-if (empty($nombre) || !is_numeric($descuento)) {
-    echo json_encode(['success' => false, 'message' => 'Datos inválidos']);
-    exit;
+if ($nombre === '' || !is_numeric($descuento) || $descuento < 0 || $descuento > 100) {
+  echo json_encode(["success" => false, "message" => "Nombre inválido o descuento fuera de rango (0-100%)"]);
+  exit;
 }
 
-// Preparar consulta
-$stmt = $mysqli->prepare("INSERT INTO convenio (nombre, descuento) VALUES (?, ?)");
-if (!$stmt) {
-    echo json_encode(['success' => false, 'message' => 'Error al preparar la consulta: ' . $mysqli->error]);
-    exit;
-}
-//asegura que no pase el 100% del convenio
-$descuento = floatval($_POST['descuento']);
-if ($descuento < 0 || $descuento > 100) {
-    echo json_encode(['success' => false, 'message' => 'El descuento debe ser entre 1 y 100.']);
-    exit;
+$query = $mysqli->prepare("INSERT INTO convenio (nombre, descuento) VALUES (?, ?)");
+if (!$query) {
+  echo json_encode(["success" => false, "message" => "Error al preparar la consulta"]);
+  exit;
 }
 
-// Enlazar parámetros
-$stmt->bind_param("sd", $nombre, $descuento);
-
-// Ejecutar y responder
-if ($stmt->execute()) {
-    echo json_encode(['success' => true]);
+$query->bind_param("sd", $nombre, $descuento);
+if ($query->execute()) {
+  echo json_encode(["success" => true]);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Error SQL: ' . $stmt->error]);
+  echo json_encode(["success" => false, "message" => "Error al guardar el convenio"]);
 }
-
-$stmt->close();
 ?>

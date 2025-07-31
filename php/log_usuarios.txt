@@ -1,0 +1,15 @@
+--- NUEVA EJECUCIè™—N ---
+JSON recibido: {"rut":"13520634-2","nombre":"daniel","usuario":"daniel","mail":"dhernandez@gmail.com","tipo":0}
+Usuario ya existe: 13520634-2
+--- NUEVA EJECUCIè™—N ---
+JSON recibido: {"rut":"15531064-2","nombre":"daniel","usuario":"daniel","mail":"dhernandez@gmail.com","tipo":0}
+SQL: INSERT INTO user (rut, name, user_name, pass, mail, type, estado)
+        VALUES ('15531064-2', 'daniel', 'daniel', '123456', 'dhernandez@gmail.com', 0, 1)
+--- NUEVA EJECUCIè™—N ---
+JSON recibido: {"rut":"1234","nombre":"daniel","usuario":"jodani","mail":"dhernandez@gmail.com","tipo":0,"ciudad":0}
+SQL: INSERT INTO user (rut, name, user_name, pass, mail, type, ciudad, estado, intentos_fallidos, bloqueado)
+        VALUES ('1234', 'daniel', 'jodani', '1234', 'dhernandez@gmail.com', 0, 0, 1, 0, 0)
+--- NUEVA EJECUCIè™—N ---
+JSON recibido: {"rut":"53534534534","nombre":"Alejandra Urrutia","usuario":"jodani","mail":"dhernandez@gmail.com","tipo":0,"ciudad":0}
+SQL: INSERT INTO user (rut, name, user_name, pass, mail, type, ciudad, estado, intentos_fallidos, bloqueado)
+        VALUES ('53534534534', 'Alejandra Urrutia', 'jodani', '1234', 'dhernandez@gmail.com', 0, 0, 1, 0, 0)

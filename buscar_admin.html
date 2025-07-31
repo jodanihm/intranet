@@ -1,222 +1,253 @@
 <!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Administración de Usuarios</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-</head>
-<body>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Plantiflex</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  </head>
+    <body >
+      <div id="carga-modal-general" data-type="buscar_admin"></div>
+    
+      <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+          <div class="row w-100">
+            <div class="col-2">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> Menu
+              </button>
+            </div>
+            <div class="col-8">
+              <h5 class="text-center text-light mt-1">Buscador de solicitudes</h5>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </nav>
+      <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Plantiflex menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral">
 
-<!-- Menú lateral -->
-<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title">Plantiflex menu</h5>
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-  </div>
-  <div class="offcanvas-body">
-    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="menu_lateral"></ul>
-  </div>
-</div>
-
-<!-- Navbar superior -->
-<nav class="navbar navbar-dark bg-dark fixed-top">
-  <div class="container-fluid">
-    <div class="row w-100">
-      <div class="col-2">
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar">
-          <span class="navbar-toggler-icon"></span> Menu
-        </button>
-      </div>
-      <div class="col-8">
-        <h5 class="text-center text-light mt-1">Panel administración usuarios</h5>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<!-- Contenido -->
-<div class="container-fluid mt-5 pt-4">
-  <div class="row">
-    <div class="col-sm-12 d-flex justify-content-end mb-3">
-      <button class="btn btn-success" onclick="abrirModalAgregar()">
-        <i class="bi bi-plus-circle"></i> Agregar Usuario
-      </button>
-    </div>
-    <div class="col-sm-12" id="resultado"></div>
-  </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="modalUsuario" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalTitulo">Editar Usuario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-2" id="grupoRUT">
-          <label class="form-label">RUT</label>
-          <input type="text" class="form-control" id="editRut">
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Nombre</label>
-          <input type="text" class="form-control" id="editNombre">
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Usuario</label>
-          <input type="text" class="form-control" id="editUsuario">
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Correo</label>
-          <input type="email" class="form-control" id="editMail">
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Tipo</label>
-          <select id="editTipo" class="form-select">
-            <option value="0">Administrador</option>
-            <option value="1">Kinesiólogo</option>
-            <option value="2">Impresor</option>
-            <option value="3">Kinesiólogo Jefe</option>
-          </select>
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Ciudad</label>
-          <select id="editCiudad" class="form-select"></select>
+          </ul>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" id="btnGuardar" onclick="guardarCambios()">Guardar Cambios</button>
+      <div class="container-fluid mt-5 pt-2">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            
+            <div class="col-sm-8">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="text-center">Busqueda entre fechas</h5>
+                        <h6 class="text-center text-secondary">Solicitudes terminadas</h6>
+                        <div class="row mt-2">
+
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="fecha_ini">  
+                                    
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="fecha_fin">  
+                            </div>
+                            <div class="col-sm-4">
+                                <button class="btn btn-primary w-100" onclick="buscar_fecha()">Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+          <div class="col-sm-2"></div>
+          
+        </div>
       </div>
-    </div>
-  </div>
-</div>
+      <div class="container-fluid">
+        <div class="row mt-2">
+          <div class="col-sm-6" id="resultado_forro" style="display: none;">
+              <div class="card shadow" style="height: 500px;">
+                  <div class="card-body">
+                      <div id="chart_div" style="width: 100%; height: 100%;"></div>
+                  </div>
+              </div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-let modoAgregar = false;
+              <div class="card shadow mt-2" style="height: 500px;">
+                <div class="card-body">
+                    <div id="piechart" style="width: 100%; height: 100%;"></div>
+                </div>
+            </div>
+          </div>
+          <div class="col-sm-6 " id="resultado"></div>
+        </div>
+       
+      </div>
+      
 
-function tipoTexto(tipo) {
-  return ['Administrador', 'Kinesiólogo', 'Impresor', 'Kinesiólogo Jefe'][tipo] || 'Desconocido';
-}
+      
+      
 
-function cargarUsuarios() {
-  fetch('php/listar_usuarios.php')
-    .then(r => r.json())
-    .then(data => {
-      let html = `<table class='table table-striped'><thead><tr><th>RUT</th><th>Nombre</th><th>Usuario</th><th>Correo</th><th>Tipo</th><th>Ciudad</th><th>Acciones</th></tr></thead><tbody>`;
-      data.forEach(u => {
-        html += `<tr>
-          <td>${u.rut}</td>
-          <td>${u.name}</td>
-          <td>${u.user_name}</td>
-          <td>${u.mail}</td>
-          <td>${tipoTexto(u.type)}</td>
-          <td>${u.ciudad_nombre || 'Sin asignar'}</td>
-          <td>
-            <button class='btn btn-warning btn-sm' onclick='editarUsuario(${JSON.stringify(u)})'><i class='bi bi-pencil'></i></button>
-            <button class='btn btn-danger btn-sm' onclick='eliminarUsuario("${u.rut}")'><i class='bi bi-trash'></i></button>
-          </td>
-        </tr>`;
-      });
-      html += '</tbody></table>';
-      document.getElementById('resultado').innerHTML = html;
-    });
-}
 
-async function cargarCiudades(seleccionada = null) {
-  const res = await fetch('php/listar_ciudades.php');
-  const data = await res.json();
-  const select = document.getElementById('editCiudad');
-  select.innerHTML = '';
-  data.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c.id;
-    opt.textContent = c.nombre;
-    if (c.id == seleccionada) opt.selected = true;
-    select.appendChild(opt);
-  });
-}
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+        <script>
+            $( document ).ready(function() {
+                // Obtener la fecha actual
+                var fechaActual = new Date();
 
-function editarUsuario(u) {
-  modoAgregar = false;
-  document.getElementById('modalTitulo').innerText = 'Editar Usuario';
-  document.getElementById('grupoRUT').style.display = 'none';
-  document.getElementById('editRut').value = u.rut;
-  document.getElementById('editNombre').value = u.name;
-  document.getElementById('editUsuario').value = u.user_name;
-  document.getElementById('editMail').value = u.mail;
-  document.getElementById('editTipo').value = u.type;
-  cargarCiudades(u.ciudad);
-  new bootstrap.Modal(document.getElementById('modalUsuario')).show();
-}
+                // Obtener el primer día del mes actual
+                var primerDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
 
-async function abrirModalAgregar() {
-  modoAgregar = true;
-  document.getElementById('modalTitulo').innerText = 'Agregar Usuario';
-  document.getElementById('grupoRUT').style.display = 'block';
-  document.getElementById('editRut').value = '';
-  document.getElementById('editNombre').value = '';
-  document.getElementById('editUsuario').value = '';
-  document.getElementById('editMail').value = '';
-  document.getElementById('editTipo').value = '0';
-  await cargarCiudades();
-  new bootstrap.Modal(document.getElementById('modalUsuario')).show();
-}
+                // Obtener el último día del mes actual
+                var ultimoDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
 
-function guardarCambios() {
-  const datos = {
-    rut: document.getElementById('editRut').value,
-    nombre: document.getElementById('editNombre').value,
-    usuario: document.getElementById('editUsuario').value,
-    mail: document.getElementById('editMail').value,
-    tipo: parseInt(document.getElementById('editTipo').value),
-    ciudad: parseInt(document.getElementById('editCiudad').value)
-  };
+                // Función para formatear la fecha como "yyyy-mm-dd"
+                function formatDate(date) {
+                    var year = date.getFullYear();
+                    var month = ('0' + (date.getMonth() + 1)).slice(-2); // Agrega un cero adelante si es necesario
+                    var day = ('0' + date.getDate()).slice(-2); // Agrega un cero adelante si es necesario
+                    return year + '-' + month + '-' + day;
+                }
 
-  const url = modoAgregar ? 'php/agregar_usuario.php' : 'php/editar_usuario.php';
+                // Formatear las fechas y mostrar en la consola
+                var primerDiaFormateado = formatDate(primerDiaDelMes);
+                var ultimoDiaFormateado = formatDate(ultimoDiaDelMes);
+                $("#fecha_ini").val(primerDiaFormateado);
+                $("#fecha_fin").val(ultimoDiaFormateado);
+                //console.log("Primer día del mes: ", primerDiaFormateado);
+                //console.log("Último día del mes: ", ultimoDiaFormateado);
+            });
+            function buscar_fecha() {
+              var parametros = {
+                "accion"   : "1",
+                "fecha_ini": $("#fecha_ini").val(),
+                "fecha_fin": $("#fecha_fin").val()
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/buscar_admin.php',
+                    type: 'post',  
+                    success: function (response) {
+                      $("#resultado").html(response);
+                    }
+                });
 
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(datos)
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (data.success) {
-      alert(modoAgregar ? 'Usuario agregado' : 'Usuario actualizado');
-      bootstrap.Modal.getInstance(document.getElementById('modalUsuario')).hide();
-      cargarUsuarios();
-    } else {
-      alert('Error: ' + data.message);
-    }
-  });
-}
+                var parametros = {
+                "accion"   : "2",
+                "fecha_ini": $("#fecha_ini").val(),
+                "fecha_fin": $("#fecha_fin").val()
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/buscar_admin.php',
+                    type: 'post',  
+                    dataType: 'json',
 
-function eliminarUsuario(rut) {
-  if (!confirm('¿Eliminar este usuario?')) return;
+                    success: function (response) {
+                        google.charts.load("current", {packages:["corechart"]});
+                        google.charts.setOnLoadCallback(drawChart);
+                        function drawChart() {
+                            
+                            var data = [['Element', 'Cantidad', { role: 'style' } ]];
 
-  fetch('php/eliminar_usuario.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ rut })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (data.success) {
-      alert('Usuario eliminado');
-      cargarUsuarios();
-    } else {
-      alert('Error: ' + data.message);
-    }
-  });
-}
+                            for (var key in response) {
+                                var element = response[key][0];
+                                var density = parseFloat(response[key][1]);
+                                var style = response[key][2];
 
-window.onload = cargarUsuarios;
-</script>
-</body>
+                                data.push([element, density, style]);
+                            }
+
+                            data.sort(function(a, b) {
+                              return b[1] - a[1];
+                            });
+                            //console.log(data);
+                            var dataTable = google.visualization.arrayToDataTable(data);
+                            var view = new google.visualization.DataView(dataTable);
+                            view.setColumns([0, 1,
+                                            { calc: "stringify",
+                                                sourceColumn: 1,
+                                                type: "string",
+                                                role: "annotation" },
+                                            2]);
+
+                            var options = {
+                                title: "Cantidad de forros vendidos entre el "+parametros.fecha_ini + " y " +parametros.fecha_fin,
+                                chartArea: {left: 250, top: 30, right: 20, bottom: 50},
+                                //width: 600,
+                                //height: 600,
+                                bar: {groupWidth: "90%"},
+                                legend: { position: "none" },
+                            };
+                            
+                            var chart = new google.visualization.BarChart(document.getElementById("chart_div"));
+                            chart.draw(view, options);
+                        }
+                        window.addEventListener('resize', function(){
+                          drawChart(); // Llama a la función de dibujo del gráfico cuando la ventana se redimensiona
+                        });
+                    }
+                });
+                $('#resultado_forro').show();
+
+
+                var parametros = {
+                "accion"   : "3",
+                "fecha_ini": $("#fecha_ini").val(),
+                "fecha_fin": $("#fecha_fin").val()
+                };
+                $.ajax({            
+                    data:  parametros,
+                    url: 'php/buscar_admin.php',
+                    type: 'post',  
+                    dataType: 'json',
+                    success: function (response) {
+                      
+                      //$("#resultado_ciudad").html(response);
+                      //console.log(response);
+                      google.charts.load('current', {'packages':['corechart']});
+                      google.charts.setOnLoadCallback(drawChart);
+
+                      function drawChart() {
+                        var formattedData = [['City', 'Value']]; // Crear una matriz para los datos en el formato adecuado
+
+                        for (var key in response) {
+                          formattedData.push([response[key][0], parseInt(response[key][1])]);
+                        }
+
+                        //console.log(formattedData);
+
+                        var data = google.visualization.arrayToDataTable(formattedData);
+                        
+                        var options = {
+                          title: "Cantidad de ventas por ciudad entre el "+parametros.fecha_ini + " y " +parametros.fecha_fin,
+                          
+                          chartArea: {left: 10, top: 25, right: 10, bottom: 10},
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                        chart.draw(data, options);
+                        
+                      }
+                      window.addEventListener('resize', function(){
+                          drawChart(); // Llama a la función de dibujo del gráfico cuando la ventana se redimensiona
+                        });
+                    }
+                });
+
+            }
+
+            
+        </script>
+
+    </body>
 </html>
