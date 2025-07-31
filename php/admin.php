@@ -38,9 +38,58 @@ if ($_POST['accion'] == 1) {
     }
     $row_cnt2 = $resultado->num_rows;
     if ($row_cnt2 != 0) {
-        
+          // almacenamos los datos para poder calcular totales y mostrarlos antes de la tabla
+        $datos = array();
+        $total = 0;
+        $total_plantillas = 0;
+        while($fila = $resultado->fetch_array()){
+            $datos[] = $fila;
+
+            $r_reimp=$mysqli->query("SELECT count(*) FROM historial_soli WHERE id_solicitud = '$fila[0]' AND estado = 'Reimpresion' ");
+            $row_r = $r_reimp->fetch_array();
+            $c_reimp = $row_r[0];
+
+            $r_desc=$mysqli->query("SELECT * FROM convenio WHERE id = '$fila[14]' ");
+            $row_d = $r_desc->fetch_array();
+            $desc_conv = $row_d[2];
+
+            if ($fila['8'] <= 35) {
+                if ($fila['3'] == 'par') {
+                    $p_base = $precios['Infantil'][0];
+                    $imp_reimp = $precios['Infantil'][2];
+                }elseif($fila['3'] == 'izquierda' || $fila['3'] == 'derecha'){
+                    $p_base = $precios['Infantil'][1];
+                    $imp_reimp = $precios['Infantil'][3];
+                }
+                $impuesto_ciudad = $impuesto_infantil;
+            } else {
+                if ($fila['3'] == 'par') {
+                    $p_base = $precios['Adulto'][0];
+                    $imp_reimp = $precios['Adulto'][2];
+                }elseif($fila['3'] == 'izquierda' || $fila['3'] == 'derecha'){
+                    $p_base = $precios['Adulto'][1];
+                    $imp_reimp = $precios['Adulto'][3];
+                }
+                $impuesto_ciudad = $impuesto_adulto;
+            }
+
+            $pre_precio = (($p_base * $impuesto_ciudad) / 100 + $p_base) * $fila[4];
+            $pre_precio = (($c_reimp * $fila[4]) * $imp_reimp) + $pre_precio;
+            $precio_final = $pre_precio - (($desc_conv*$pre_precio) / 100);
+            $precio_final = $precio_final + $fila[17];
+
+            $total += $precio_final;
+            $total_plantillas += $fila[4];
+        }
+
         ?>
-        <div class="card shadow">
+        <div class="alert alert-info mb-2">
+            <strong>Resumen:</strong>
+            Plantillas: <?php echo $total_plantillas; ?> |
+            Total: <?php echo "$ ".number_format( $total , 0, ',', '.'); ?>
+            
+            
+    <div class="card shadow">
             <div class="card-body">
                 <table class="table text-center table-bordered table-hover">
                     <thead>
@@ -70,8 +119,8 @@ if ($_POST['accion'] == 1) {
                     </thead>
                     <tbody>
                         <?php
-                        $total = 0;
-                        while($row = $resultado->fetch_array()){
+                        foreach($datos as $row){
+
 
                             $r_reimp=$mysqli->query("SELECT count(*) FROM historial_soli WHERE id_solicitud = '$row[0]' AND estado = 'Reimpresion' ");
                             $row_r = $r_reimp->fetch_array();
@@ -139,7 +188,6 @@ if ($_POST['accion'] == 1) {
                                     $precio_final = $pre_precio - (($desc_conv*$pre_precio) / 100);
 
                                     $precio_final = $precio_final + $row[17]; // suma de impuesto de forro
-                                    $total = $total + $precio_final;
                                     echo "$ ".number_format( $precio_final , 0, ',', '.');
                                     
                                     ?>
